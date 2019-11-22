@@ -1,0 +1,52 @@
+#_641630 {
+  background: white;
+  height: 60px;
+  border-bottom: 2px solid #cccccc;
+
+  .container {
+    height: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      margin-right: 50px;
+
+      svg {
+        width: 40px;
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: bold;
+        margin-left: 10px;
+        color: #004481;
+      }
+    }
+
+    .links {
+      display: flex;
+      height: 100%;
+
+      align-items: center;
+
+      .link {
+        height: 100%;
+        line-height: 60px;
+        padding: 0px 20px;
+
+        &:hover,
+        &.active {
+          background: rgb(235, 235, 235)
+        }
+      }
+    }
+
+    .user {
+      position: absolute;
+      right: 0;
+    }
+  }
+}

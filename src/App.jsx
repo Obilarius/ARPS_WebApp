@@ -1,9 +1,14 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import FileserverSite from "./components/sites/FileserverSite/FileserverSite";
 
 function App() {
-  return <div></div>;
+  return (
+    <>
+      <Navbar />
+      <FileserverSite />
+    </>
+  );
 }
 
 export default App;

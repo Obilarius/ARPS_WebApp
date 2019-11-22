@@ -1,0 +1,46 @@
+#_ea08ff {
+  margin: 10px auto;
+
+  .header {
+    font-size: 25px;
+    color: #004481;
+    margin: 20px 0;
+    font-weight: 500;
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 30px;
+
+    .tile {
+      display: grid;
+      grid-template-columns: 50px auto 1fr;
+      align-items: center;
+      border: 1px solid #ccc;
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+      color: rgb(88, 88, 88);
+
+
+      .icon {
+        height: 50px;
+
+        svg {
+          height: 100%;
+        }
+      }
+
+      .number {
+        font-size: 50px;
+        font-weight: bold;
+        margin: 0 25px;
+
+        span {
+          font-size: 0.5em;
+        }
+      }
+    }
+  }
+}
