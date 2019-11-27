@@ -1,7 +1,7 @@
 641630 - Navbar
 ea08ff - FileserverSite
-e93734
-13990f
+e93734 - Loader
+13990f - FolderInfo
 16fa12
 997489
 72bd0a

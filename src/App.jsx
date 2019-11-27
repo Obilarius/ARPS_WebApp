@@ -6,7 +6,9 @@ function App() {
   return (
     <>
       <Navbar />
-      <FileserverSite />
+      <div className="content">
+        <FileserverSite />
+      </div>
     </>
   );
 }

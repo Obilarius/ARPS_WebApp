@@ -3,30 +3,11 @@ import Tile from "../Tile";
 import { ReactComponent as FolderSolid } from "../../../assets/FontAwesome/folder-solid.svg";
 import { ReactComponent as ServerSolid } from "../../../assets/FontAwesome/server-solid.svg";
 import { ReactComponent as HDDSolid } from "../../../assets/FontAwesome/hdd-solid.svg";
+import HumanReadableSize from "../../../utils/HumanReadableSize";
 
 const Tiles = props => {
   const numberWithCommas = x => {
     if (x) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
-
-  const humanFileSize = (bytes, si) => {
-    var thresh = 1024;
-    if (Math.abs(bytes) < thresh) {
-      return bytes + " B";
-    }
-    var units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    var u = -1;
-    do {
-      bytes /= thresh;
-      ++u;
-    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-    // return bytes.toFixed(1) + " " + units[u];
-    return (
-      <>
-        {bytes.toFixed(1)}
-        <span>{units[u]}</span>
-      </>
-    );
   };
 
   return (
@@ -43,7 +24,7 @@ const Tiles = props => {
       />
       <Tile
         icon={<HDDSolid />}
-        number={<>{humanFileSize(props.sumSize, true)}</>}
+        number={<HumanReadableSize bytes={props.sumSize} />}
         text="belegter Speicherplatz"
       />
     </div>
