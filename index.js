@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 // routes
 app.use("/fileserver", require("./routes/fileserver"));
+app.use("/directory", require("./routes/directory"));
 
 // error handling middleware
 app.use((err, req, res, next) => {
