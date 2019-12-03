@@ -1,29 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { Treebeard } from "react-treebeard";
 import decorators from "react-treebeard/dist/components/Decorators";
 import customTheme from "./customStyle";
-import { ReactComponent as FolderSolid } from "../../../../assets/FontAwesome/folder-solid.svg";
-import { ReactComponent as ServerSolid } from "../../../../assets/FontAwesome/server-solid.svg";
-import { ReactComponent as ShareSolid } from "../../../../assets/FontAwesome/share-solid.svg";
 import HumanReadableSize from "../../../../utils/HumanReadableSize";
-
-const nodeIcon = type => {
-  const style = {
-    width: "18px",
-    marginRight: "5px"
-  };
-
-  switch (type) {
-    case "Server":
-      return <ServerSolid style={style} />;
-    case "Share":
-      return <ShareSolid style={style} />;
-    case "Folder":
-      return <FolderSolid style={style} />;
-    default:
-      return <FolderSolid style={style} />;
-  }
-};
+import NodeIcon from "./NodeIcon";
 
 const CustomHeader = ({ node, style, prefix }) => {
   const newStyle = { ...style.base, width: "100%" };
@@ -43,7 +23,7 @@ const CustomHeader = ({ node, style, prefix }) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          {nodeIcon(node.type)}
+          <NodeIcon type={node.type} />
           {node.name}
         </div>
         <div>
@@ -100,18 +80,18 @@ class CutomContainer extends decorators.Container {
   }
 }
 
-export default class Treeview extends Component {
-  render() {
-    decorators.Header = CustomHeader;
-    decorators.Container = CutomContainer;
+const Treeview = props => {
+  decorators.Header = CustomHeader;
+  decorators.Container = CutomContainer;
 
-    return (
-      <Treebeard
-        data={this.props.server}
-        onToggle={this.props.onToggle}
-        style={customTheme}
-        decorators={decorators}
-      />
-    );
-  }
-}
+  return (
+    <Treebeard
+      data={props.server}
+      onToggle={props.onToggle}
+      style={customTheme}
+      decorators={decorators}
+    />
+  );
+};
+
+export default Treeview;
