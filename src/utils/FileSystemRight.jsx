@@ -3,15 +3,33 @@ import React from "react";
 import { ReactComponent as UserSolid } from "../assets/FontAwesome/user-solid.svg";
 import { ReactComponent as GroupSolid } from "../assets/FontAwesome/users-solid.svg";
 import { ReactComponent as CheckSolid } from "../assets/FontAwesome/check-solid.svg";
+import { ReactComponent as FolderIcon } from "../assets/FontAwesome/folder-solid.svg";
+import { ReactComponent as SubfolderIcon } from "../assets/FontAwesome/folder-tree-duotone.svg";
+import { ReactComponent as FilesIcon } from "../assets/FontAwesome/file-alt-duotone.svg";
 
 const FileSystemRight = ({ acl }) => {
-  const getFSR = n => {
+  const getFSR = (n, p, i) => {
     const b = index => {
       if ((n & (1 << index)) !== 0) {
         return true;
       } else {
         return false;
       }
+    };
+
+    const folder = () => {
+      if (p === 0) return true;
+      return false;
+    };
+
+    const subfolder = () => {
+      if (i === 1 || i === 3) return true;
+      return false;
+    };
+
+    const files = () => {
+      if (i === 2 || i === 3) return true;
+      return false;
     };
 
     return {
@@ -66,6 +84,11 @@ const FileSystemRight = ({ acl }) => {
           b(18) &&
           b(19),
         Synchronize: b(20)
+      },
+      propagnation: {
+        Folder: folder(),
+        Subfolder: subfolder(),
+        Files: files()
       }
     };
   };
@@ -107,7 +130,15 @@ const FileSystemRight = ({ acl }) => {
       {getHeader()}
 
       {acl.map(item => {
-        const fsr = getFSR(item._rights);
+        const fsr = getFSR(
+          item._rights,
+          item._propagation_flags,
+          item._inheritance_flags
+        );
+
+        const checkmarksClassList = item._is_inherited
+          ? "checkmark inherit"
+          : "checkmark";
 
         return (
           <React.Fragment key={`${item._sid}-${item._rights}`}>
@@ -123,27 +154,31 @@ const FileSystemRight = ({ acl }) => {
             </div>
 
             <div className="checkmark">
-              {item._is_inherited ? <CheckSolid /> : ""}
+              {item._is_inherited && <CheckSolid />}
             </div>
-            <div className="checkmark">
-              {fsr.effectiveRights.FullControl ? <CheckSolid /> : ""}
+            <div className={checkmarksClassList}>
+              {fsr.effectiveRights.FullControl && <CheckSolid />}
             </div>
-            <div className="checkmark">
-              {fsr.effectiveRights.Modify ? <CheckSolid /> : ""}
+            <div className={checkmarksClassList}>
+              {fsr.effectiveRights.Modify && <CheckSolid />}
             </div>
-            <div className="checkmark">
-              {fsr.effectiveRights.ReadAndExecute ? <CheckSolid /> : ""}
+            <div className={checkmarksClassList}>
+              {fsr.effectiveRights.ReadAndExecute && <CheckSolid />}
             </div>
-            <div className="checkmark">
-              {fsr.effectiveRights.Write ? <CheckSolid /> : ""}
+            <div className={checkmarksClassList}>
+              {fsr.effectiveRights.Write && <CheckSolid />}
             </div>
-            <div className="checkmark">
-              {fsr.effectiveRights.Read ? <CheckSolid /> : ""}
+            <div className={checkmarksClassList}>
+              {fsr.effectiveRights.Read && <CheckSolid />}
             </div>
-            <div className="checkmark">
-              {fsr.rights.ListDirectory ? <CheckSolid /> : ""}
+            <div className={checkmarksClassList}>
+              {fsr.rights.ListDirectory && <CheckSolid />}
             </div>
-            <div>{item._propagation_flags}</div>
+            <div className="propagnation">
+              <div>{fsr.propagnation.Folder && <FolderIcon />}</div>
+              <div>{fsr.propagnation.Subfolder && <SubfolderIcon />}</div>
+              <div>{fsr.propagnation.Files && <FilesIcon />}</div>
+            </div>
           </React.Fragment>
         );
       })}
