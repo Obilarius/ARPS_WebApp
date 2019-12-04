@@ -5,6 +5,7 @@ import Tiles from "./Tiles";
 import Treeview from "./Treeview/Treeview";
 import Loader from "../../../utils/Loader";
 import FolderInfo from "./FolderInfo/FolderInfo";
+import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 
 class FileserverSite extends Component {
   state = {
@@ -134,10 +135,7 @@ class FileserverSite extends Component {
     return (
       <div id="_ea08ff" className="container">
         {loading && <Loader />}
-        <div className={"content " + (infoIsOpen ? "info-open" : "")}>
-          <div className="header">
-            <h2>Fileserver</h2>
-          </div>
+        <SiteWrapperWithHeader title="Fileserver" infoIsOpen={infoIsOpen}>
           <Tiles
             distinctFileserver={Fileserver.length}
             folderCount={folderCount}
@@ -154,7 +152,7 @@ class FileserverSite extends Component {
               );
             })}
           </div>
-        </div>
+        </SiteWrapperWithHeader>
         {infoIsOpen && <FolderInfo folder={activeNode} />}
       </div>
     );
