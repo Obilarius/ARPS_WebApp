@@ -1,20 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import "./FileserverSite.scss";
 import Tiles from "./Tiles";
 import Treeview from "./Treeview/Treeview";
 import Loader from "../../../utils/Loader";
 import FolderInfo from "./FolderInfo/FolderInfo";
+import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
+import Searchfield from "../../../utils/Searchfield";
 
-const FileserverSite = () => {
-  const [fileserver, setFileserver] = useState([]);
-  const [folderCount, setFolderCount] = useState(0);
-  const [completeSize, setCompleteSize] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeNode, setActiveNode] = useState(null);
+class FileserverSite extends Component {
+  state = {
+    Fileserver: [],
+    searchDropdown: [],
+    folderCount: 0,
+    sumSize: 0,
+    loading: false,
+    infoIsOpen: false
+  };
 
-  const distinctFileserver = shares => {
+  distinctFileserver = shares => {
     const dfs = [];
 
     const search = (nameKey, myArray) => {
@@ -55,29 +59,40 @@ const FileserverSite = () => {
       }
     });
 
-    // this.setState({ Fileserver: dfs });
-    setFileserver(dfs);
+    this.setState({ Fileserver: dfs });
   };
 
-  useEffect(() => {
+  componentDidMount = () => {
     axios.get("http://localhost:8000/fileserver/shares").then(res => {
-      distinctFileserver(res.data.recordset);
+      this.distinctFileserver(res.data.recordset);
 
       let sum = 0;
-      fileserver.forEach(server => {
+      this.state.Fileserver.forEach(server => {
         sum += server._size;
       });
-      setCompleteSize(sum);
+      this.setState({ sumSize: sum });
     });
 
     axios.get("http://localhost:8000/fileserver/foldercount").then(res => {
-      setFolderCount(res.data.recordset[0].folderCount);
+      this.setState({ folderCount: res.data.recordset[0].folderCount });
     });
 
-    setIsLoading(false);
-  }, []);
+    axios.get("http://localhost:8000/ad/userandgroupssid").then(res => {
+      const result = [];
 
-  const getChildNodes = (node, toggled) => {
+      res.data.forEach(item => {
+        result.push({
+          key: item.SID,
+          icon: item.isGroup,
+          value: item.Name
+        });
+      });
+
+      this.setState({ searchDropdown: result });
+    });
+  };
+
+  getChildNodes = (node, toggled) => {
     if (node.children) {
       node.toggled = toggled;
 
@@ -98,19 +113,19 @@ const FileserverSite = () => {
 
             node.children = children;
 
-            setIsLoading(false);
+            this.setState({ loading: false });
           });
       } else {
-        setIsLoading(false);
+        this.setState({ loading: false });
       }
     } else {
-      setIsLoading(false);
+      this.setState({ loading: false });
     }
   };
 
-  const treeviewOnToggleHandler = (node, toggled) => {
-    console.log(node, toggled);
-    setIsLoading(true);
+  treeviewOnToggleHandler = (node, toggled) => {
+    this.setState({ loading: true });
+    const { activeNode } = this.state;
 
     // Deaktiviert alte Node und aktiviert neue Node
     if (activeNode) {
@@ -118,38 +133,57 @@ const FileserverSite = () => {
       oldActiveNode.active = false;
     }
     node.active = true;
-    setActiveNode(node);
+    this.setState({ activeNode: node, infoIsOpen: true });
 
-    getChildNodes(node, toggled);
+    this.getChildNodes(node, toggled);
   };
 
-  return (
-    <div id="_ea08ff" className="container">
-      {isLoading && <Loader />}
-      <div className="content">
-        <div className="header">
-          <h2>Fileserver</h2>
-        </div>
-        <Tiles
-          distinctFileserver={fileserver.length}
-          folderCount={folderCount}
-          sumSize={completeSize}
-        />
-        <div style={{ marginTop: "80px", position: "relative" }}>
-          {fileserver.map(server => {
-            return (
-              <Treeview
-                key={server.name}
-                server={server}
-                onToggle={treeviewOnToggleHandler}
-              />
-            );
-          })}
-        </div>
+  onSearchHandler = item => {
+    console.log(item.value);
+  };
+
+  render() {
+    const {
+      Fileserver,
+      searchDropdown,
+      folderCount,
+      sumSize,
+      loading,
+      activeNode,
+      infoIsOpen
+    } = this.state;
+
+    return (
+      <div id="_ea08ff" className="container">
+        {loading && <Loader />}
+        <SiteWrapperWithHeader title="Fileserver" infoIsOpen={infoIsOpen}>
+          <Tiles
+            distinctFileserver={Fileserver.length}
+            folderCount={folderCount}
+            sumSize={sumSize}
+          />
+          <Searchfield
+            placeholder="Suche..."
+            title="User oder Gruppe"
+            dropdownItems={searchDropdown}
+            onSearch={this.onSearchHandler}
+          />
+          <div className="treeviews">
+            {Fileserver.map(server => {
+              return (
+                <Treeview
+                  key={server.name}
+                  server={server}
+                  onToggle={this.treeviewOnToggleHandler}
+                />
+              );
+            })}
+          </div>
+        </SiteWrapperWithHeader>
+        {infoIsOpen && <FolderInfo folder={activeNode} />}
       </div>
-      <FolderInfo folder={activeNode} />
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default FileserverSite;

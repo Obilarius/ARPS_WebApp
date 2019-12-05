@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
-import FileserverSite from "./components/sites/FileserverSite/FileserverSite_ohneHook";
+import FileserverSite from "./components/sites/FileserverSite/FileserverSite";
 import ActiveDirectorySite from "./components/sites/ActiveDirectory/ActiveDirectorySite";
 
 const App = () => {
