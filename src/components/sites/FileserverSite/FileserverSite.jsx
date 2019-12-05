@@ -12,6 +12,7 @@ class FileserverSite extends Component {
   state = {
     Fileserver: [],
     searchDropdown: [],
+    searchSID: null,
     folderCount: 0,
     sumSize: 0,
     loading: false,
@@ -35,27 +36,28 @@ class FileserverSite extends Component {
       const searchedShare = search(name, dfs);
       if (!searchedShare) {
         // nicht in Array
-        const splittedPath = share._unc_path_name.split("\\");
-        share.name = splittedPath[splittedPath.length - 1];
-        share.type = "Share";
-        if (share._has_children) share.children = [];
+        // const splittedPath = share._unc_path_name.split("\\");
+        // share.name = splittedPath[splittedPath.length - 1];
+        // share.type = "Share";
+        // if (share._has_children) share.children = [];
 
         dfs.push({
           name: name,
           _size: parseInt(share._size),
           _has_children: true,
-          children: [share],
+          // children: [share],
+          children: [],
           type: "Server"
         });
       } else {
         // bereits in Array
-        const splittedPath = share._unc_path_name.split("\\");
-        share.name = splittedPath[splittedPath.length - 1];
-        share.type = "Share";
-        // share.loading = true;
-        if (share._has_children) share.children = [];
+        // const splittedPath = share._unc_path_name.split("\\");
+        // share.name = splittedPath[splittedPath.length - 1];
+        // share.type = "Share";
+        // // share.loading = true;
+        // if (share._has_children) share.children = [];
         searchedShare._size += parseInt(share._size);
-        searchedShare.children.push(share);
+        // searchedShare.children.push(share);
       }
     });
 
@@ -64,7 +66,7 @@ class FileserverSite extends Component {
 
   componentDidMount = () => {
     axios.get("http://localhost:8000/fileserver/shares").then(res => {
-      this.distinctFileserver(res.data.recordset);
+      this.distinctFileserver(res.data);
 
       let sum = 0;
       this.state.Fileserver.forEach(server => {
@@ -96,25 +98,40 @@ class FileserverSite extends Component {
     if (node.children) {
       node.toggled = toggled;
 
-      if (
-        node.children.length === 0 &&
-        node._has_children &&
-        node.type !== "Server"
-      ) {
-        axios
-          .get(`http://localhost:8000/fileserver/children/${node._path_id}`)
-          .then(res => {
-            const children = res.data;
-            children.forEach(child => {
-              const splitPath = child._path_name.split("\\");
-              child.name = splitPath[splitPath.length - 1];
-              if (child._has_children === true) child.children = [];
+      if (node.children.length === 0 && node._has_children) {
+        if (node.type !== "Server") {
+          // Children from Shares and Folders
+          axios
+            .get(`http://localhost:8000/fileserver/children/${node._path_id}`)
+            .then(res => {
+              const children = res.data;
+              children.forEach(child => {
+                const splitPath = child._path_name.split("\\");
+                child.name = splitPath[splitPath.length - 1];
+                if (child._has_children === true) child.children = [];
+              });
+
+              node.children = children;
+
+              this.setState({ loading: false });
             });
+        } else {
+          // Children from Server
+          axios
+            .get(`http://localhost:8000/fileserver/shares/${node.name}`)
+            .then(res => {
+              res.data.forEach(share => {
+                const splittedPath = share._unc_path_name.split("\\");
+                share.name = splittedPath[splittedPath.length - 1];
+                share.type = "Share";
+                // share.loading = true;
+                if (share._has_children) share.children = [];
+                node.children.push(share);
+              });
 
-            node.children = children;
-
-            this.setState({ loading: false });
-          });
+              this.setState({ loading: false });
+            });
+        }
       } else {
         this.setState({ loading: false });
       }
@@ -139,7 +156,7 @@ class FileserverSite extends Component {
   };
 
   onSearchHandler = item => {
-    console.log(item.value);
+    this.setState({ searchSID: item.key });
   };
 
   render() {
