@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 
+import { ReactComponent as XIcon } from "../assets/FontAwesome/times-solid.svg";
 import "./Searchfield.scss";
 
 const Searchfield = props => {
   const [filterdDropdown, setFilterdDropdown] = useState(props.dropdownItems);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showClear, setShowClear] = useState(false);
 
   useEffect(() => {
     setFilterdDropdown(props.dropdownItems);
@@ -13,6 +15,7 @@ const Searchfield = props => {
 
   const onChange = e => {
     if (!showDropdown) setShowDropdown(true);
+    if (!showClear) setShowClear(true);
 
     setSearchTerm(e.target.value);
     setFilterdDropdown(
@@ -29,6 +32,12 @@ const Searchfield = props => {
     props.onSearch(item);
   };
 
+  const onClearClickHandler = () => {
+    setSearchTerm("");
+    setShowDropdown(false);
+    setShowClear(false);
+  };
+
   return (
     <div className="searchfield">
       <div className="title">{props.title}</div>
@@ -40,6 +49,11 @@ const Searchfield = props => {
           value={searchTerm}
         />
         {/* <button type="button">Suchen</button> */}
+        {showClear && (
+          <button type="reset" className="clear" onClick={onClearClickHandler}>
+            <XIcon />
+          </button>
+        )}
       </div>
       {showDropdown && (
         <div className="dropdown">

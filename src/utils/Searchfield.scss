@@ -12,7 +12,7 @@
 
   .input {
     display: grid;
-    // grid-template-columns: 1fr 100px;
+    grid-template-columns: 1fr auto;
     grid-template-rows: 40px;
     margin-top: 10px;
     border: 1px solid $borderColor;
@@ -24,15 +24,29 @@
       color: $darkGrey;
     }
 
-    button {
+    button.clear {
       height: 100%;
-      background: $blue;
+      width: 70px;
+      background: firebrick;
       color: $backgroundColor;
       border: 0;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+
 
       &:hover {
-        background: lighten($blue, 20%)
+        background: lighten(firebrick, 20%);
+
+        svg {
+          transform: rotateZ(180deg);
+        }
+      }
+
+      svg {
+        height: 50%;
+        transform: rotateZ(0deg);
+        transition: transform .4s ease-in-out;
       }
     }
   }
