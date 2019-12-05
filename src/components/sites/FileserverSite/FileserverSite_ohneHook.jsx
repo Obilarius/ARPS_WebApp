@@ -138,6 +138,10 @@ class FileserverSite extends Component {
     this.getChildNodes(node, toggled);
   };
 
+  onSearchHandler = item => {
+    console.log(item.value);
+  };
+
   render() {
     const {
       Fileserver,
@@ -162,6 +166,7 @@ class FileserverSite extends Component {
             placeholder="Suche..."
             title="User oder Gruppe"
             dropdownItems={searchDropdown}
+            onSearch={this.onSearchHandler}
           />
           <div className="treeviews">
             {Fileserver.map(server => {
