@@ -6,17 +6,18 @@
     margin-right: $infoPanelWidth;
   }
 
-  .header {
+  >.header {
     font-size: 25px;
     color: $blue;
     margin: 20px 0;
     font-weight: 500;
   }
 
-  .tiles {
+  >.tiles {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 30px;
+    margin-bottom: 30px;
 
 
     .tile {

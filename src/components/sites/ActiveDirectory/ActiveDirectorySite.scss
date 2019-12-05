@@ -1,0 +1,22 @@
+@import "../../../css/main-var.scss";
+
+$columnCount: 3;
+
+#_16fa12 {
+  .list {
+    display: grid;
+    grid-template-columns: repeat($columnCount, auto);
+    background: $backgroundColor;
+    border: 1px solid $borderColor;
+
+    >.header {
+      background-color: $darkGrey;
+      color: $backgroundColor;
+    }
+
+    >div {
+      padding: 5px 10px;
+      border-bottom: 1px solid $lightGrey;
+    }
+  }
+}

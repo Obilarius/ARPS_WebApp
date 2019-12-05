@@ -1,0 +1,65 @@
+@import "../css/main-var.scss";
+
+.searchfield {
+  width: 100%;
+  color: $borderColor;
+  position: relative;
+
+  .title {
+    border-bottom: 1px solid $borderColor;
+    padding-bottom: 8px;
+  }
+
+  .input {
+    display: grid;
+    // grid-template-columns: 1fr 100px;
+    grid-template-rows: 40px;
+    margin-top: 10px;
+    border: 1px solid $borderColor;
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 0;
+      color: $darkGrey;
+    }
+
+    button {
+      height: 100%;
+      background: $blue;
+      color: $backgroundColor;
+      border: 0;
+      cursor: pointer;
+
+      &:hover {
+        background: lighten($blue, 20%)
+      }
+    }
+  }
+
+
+
+  .dropdown {
+    background: $borderColor;
+    color: $black;
+    border: 1px solid $borderColor;
+    border-top: 0;
+    font-size: 0.9em;
+    position: absolute;
+    z-index: 900;
+    width: 100%;
+
+    >div {
+      padding: 3px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: $lightGrey;
+      }
+
+      .icon {
+        margin-right: 10px;
+      }
+    }
+  }
+}

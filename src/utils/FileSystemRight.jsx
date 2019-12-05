@@ -141,7 +141,9 @@ const FileSystemRight = ({ acl }) => {
           : "checkmark";
 
         return (
-          <React.Fragment key={`${item._sid}-${item._rights}`}>
+          <React.Fragment
+            key={`${item._sid}-${item._rights}-${item._propagation_flags}-${item._inheritance_flags}`}
+          >
             <div className="name">
               <span className="icon">
                 {item._is_group ? (

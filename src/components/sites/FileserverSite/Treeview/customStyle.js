@@ -3,11 +3,11 @@ export default {
 
     base: {
       listStyle: 'none',
-      backgroundColor: '#fff',
+      // backgroundColor: '#fff',
       margin: 0,
       // padding: "2px 10px",
-      color: '#000000',
-      fontSize: '14px',
+      // color: '#000000',
+      // fontSize: '14px',
       // border: "1px solid red"
     },
     node: {

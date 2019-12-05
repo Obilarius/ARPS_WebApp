@@ -6,10 +6,12 @@ import Treeview from "./Treeview/Treeview";
 import Loader from "../../../utils/Loader";
 import FolderInfo from "./FolderInfo/FolderInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
+import Searchfield from "../../../utils/Searchfield";
 
 class FileserverSite extends Component {
   state = {
     Fileserver: [],
+    searchDropdown: [],
     folderCount: 0,
     sumSize: 0,
     loading: false,
@@ -74,6 +76,20 @@ class FileserverSite extends Component {
     axios.get("http://localhost:8000/fileserver/foldercount").then(res => {
       this.setState({ folderCount: res.data.recordset[0].folderCount });
     });
+
+    axios.get("http://localhost:8000/ad/userandgroupssid").then(res => {
+      const result = [];
+
+      res.data.forEach(item => {
+        result.push({
+          key: item.SID,
+          icon: item.isGroup,
+          value: item.Name
+        });
+      });
+
+      this.setState({ searchDropdown: result });
+    });
   };
 
   getChildNodes = (node, toggled) => {
@@ -125,6 +141,7 @@ class FileserverSite extends Component {
   render() {
     const {
       Fileserver,
+      searchDropdown,
       folderCount,
       sumSize,
       loading,
@@ -141,7 +158,12 @@ class FileserverSite extends Component {
             folderCount={folderCount}
             sumSize={sumSize}
           />
-          <div style={{ marginTop: "80px", position: "relative" }}>
+          <Searchfield
+            placeholder="Suche..."
+            title="User oder Gruppe"
+            dropdownItems={searchDropdown}
+          />
+          <div className="treeviews">
             {Fileserver.map(server => {
               return (
                 <Treeview

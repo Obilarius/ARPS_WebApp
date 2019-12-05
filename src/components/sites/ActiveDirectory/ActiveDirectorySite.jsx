@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Axios from "axios";
 import Tiles from "./Tiles";
+import List from "./components/List";
+
+import "./ActiveDirectorySite.scss";
 
 const ActiveDirectorySite = () => {
   const [users, setUsers] = useState([]);
@@ -30,6 +33,7 @@ const ActiveDirectorySite = () => {
           groupsCount={groups.length}
           computersCount={computers.length}
         />
+        <List src={users} site={1} itemsPerSite={20} />
       </SiteWrapperWithHeader>
     </div>
   );
