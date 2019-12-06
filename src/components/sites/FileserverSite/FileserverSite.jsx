@@ -7,6 +7,7 @@ import Loader from "../../../utils/Loader";
 import FolderInfo from "./FolderInfo/FolderInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Searchfield from "../../../utils/Searchfield";
+import TreeviewOwn from "./Treeview/Treeview_own";
 
 class FileserverSite extends Component {
   state = {
@@ -196,6 +197,17 @@ class FileserverSite extends Component {
               );
             })}
           </div>
+          {/* <div className="treeviews_own">
+            {Fileserver.map(server => {
+              return (
+                <TreeviewOwn
+                  key={server.name}
+                  server={server}
+                  onToggle={this.treeviewOnToggleHandler}
+                />
+              );
+            })}
+          </div> */}
         </SiteWrapperWithHeader>
         {infoIsOpen && <FolderInfo folder={activeNode} />}
       </div>

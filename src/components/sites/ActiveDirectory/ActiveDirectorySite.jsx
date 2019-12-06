@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Axios from "axios";
 import Tiles from "./Tiles";
-import List from "./components/List";
+import List from "../../../utils/List/List";
 
 import "./ActiveDirectorySite.scss";
 
@@ -25,6 +25,8 @@ const ActiveDirectorySite = () => {
     });
   }, []);
 
+  // console.log(users);
+
   return (
     <div id="_16fa12" className="container">
       <SiteWrapperWithHeader title="Active Directory" infoIsOpen={false}>
@@ -33,7 +35,13 @@ const ActiveDirectorySite = () => {
           groupsCount={groups.length}
           computersCount={computers.length}
         />
-        <List src={users} site={1} itemsPerSite={20} />
+        <List
+          data={users}
+          headers={["ID", "Name", "Aktiviert"]}
+          columns={["SID", "DisplayName", "Enabled"]}
+          widths={["400px", "500px"]}
+          onRowClick={user => console.log("ROW CLick")}
+        />
       </SiteWrapperWithHeader>
     </div>
   );

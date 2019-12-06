@@ -17,9 +17,11 @@ const FolderInfo = ({ folder }) => {
       axios
         .get("http://localhost:8000/fsdetails/owner/" + folder._owner_sid)
         .then(res => {
-          const tempOwner = res.data[0];
-          tempOwner.name = `${tempOwner.name} (${tempOwner.secName})`;
-          setOwner(tempOwner);
+          if (res.data[0]) {
+            const tempOwner = res.data[0];
+            tempOwner.name = `${tempOwner.name} (${tempOwner.secName})`;
+            setOwner(tempOwner);
+          }
         });
   }, [folder._owner_sid]);
 

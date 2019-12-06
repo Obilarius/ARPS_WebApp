@@ -1,0 +1,67 @@
+@import "../../css/main-var.scss";
+
+._34d3dd831ac8 {
+  width: 100%;
+  background: $backgroundColor;
+
+  .pagination {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background: $borderColor;
+    border-bottom: $backgroundColor 2px solid;
+
+    >div {
+      width: 40px;
+      padding: 10px 0;
+      border: 1px solid $borderColor;
+      display: flex;
+      justify-content: center;
+      border-left: $backgroundColor solid 1px;
+      border-right: $backgroundColor solid 1px;
+
+      &.active {
+        background: darken($borderColor, 20%);
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid $borderColor;
+
+    thead {
+      background: $borderColor;
+
+      th {
+        padding: 10px;
+        text-align: left;
+        cursor: pointer;
+
+        svg {
+          width: 10px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    tbody {
+      tr:nth-child(even) {
+        background: $lightGrey;
+      }
+
+      tr {
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.05);
+        }
+
+        td {
+          padding: 10px 10px;
+        }
+      }
+    }
+  }
+}
