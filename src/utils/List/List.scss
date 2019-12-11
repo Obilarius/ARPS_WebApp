@@ -9,7 +9,7 @@
     width: 100%;
     justify-content: center;
     background: $borderColor;
-    border-bottom: $backgroundColor 2px solid;
+    // border-bottom: $backgroundColor 2px solid;
 
     >div {
       width: 40px;
@@ -17,8 +17,13 @@
       border: 1px solid $borderColor;
       display: flex;
       justify-content: center;
-      border-left: $backgroundColor solid 1px;
-      border-right: $backgroundColor solid 1px;
+      border: 0;
+      border-right: $darkGrey solid 1px;
+      border-bottom: $darkGrey solid 1px;
+
+      &:nth-child(1) {
+        border-left: $darkGrey solid 1px;
+      }
 
       &.active {
         background: darken($borderColor, 20%);
@@ -56,6 +61,10 @@
 
         &:hover {
           background: rgba(0, 0, 0, 0.05);
+        }
+
+        &.disabled {
+          color: rgba(0, 0, 0, 0.4)
         }
 
         td {

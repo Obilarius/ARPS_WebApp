@@ -5,7 +5,11 @@ const TableBody = ({ data, columns, onClick }) => {
     <tbody>
       {data.map((row, i) => {
         return (
-          <tr key={i} onClick={() => onClick(row)}>
+          <tr
+            key={i}
+            onClick={() => onClick(row)}
+            className={row.Enabled === 0 ? "disabled" : ""}
+          >
             {columns.map((col, j) => {
               return <td key={j}>{row[col]}</td>;
             })}

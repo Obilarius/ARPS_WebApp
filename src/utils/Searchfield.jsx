@@ -14,15 +14,19 @@ const Searchfield = props => {
   }, [props.dropdownItems]);
 
   const onChange = e => {
-    if (!showDropdown) setShowDropdown(true);
+    if (!showDropdown && props.dropdownItems != null) setShowDropdown(true);
     if (!showClear) setShowClear(true);
 
     setSearchTerm(e.target.value);
-    setFilterdDropdown(
-      props.dropdownItems.filter(item =>
-        item.value.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
+    if (props.dropdownItems != null) {
+      setFilterdDropdown(
+        props.dropdownItems.filter(item =>
+          item.value.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+
+    if (props.onChange) props.onChange(e.target.value);
   };
 
   const onClickHandler = item => {

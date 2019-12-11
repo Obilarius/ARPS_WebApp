@@ -3,20 +3,24 @@
 $columnCount: 3;
 
 #_16fa12 {
-  .list {
-    display: grid;
-    grid-template-columns: repeat($columnCount, auto);
-    background: $backgroundColor;
-    border: 1px solid $borderColor;
+  .tiles {
+    .tile {
+      position: relative;
+      transition: all 5s ease-in;
+      cursor: pointer;
 
-    >.header {
-      background-color: $darkGrey;
-      color: $backgroundColor;
-    }
-
-    >div {
-      padding: 5px 10px;
-      border-bottom: 1px solid $lightGrey;
+      &:hover {
+        bottom: 5px;
+      }
     }
   }
+
+  .list {
+    margin-bottom: 50px;
+
+    table {
+      width: calc(100% + 1px);
+    }
+  }
+
 }

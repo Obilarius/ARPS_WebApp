@@ -10,7 +10,7 @@ const List = props => {
   const [headers] = useState(props.headers);
   const [columns] = useState(props.columns);
   const [site, setSite] = useState(props.site || 1);
-  const [itemsPerSite, setItemsPerSite] = useState(props.itemsPerSite || 30);
+  const [itemsPerSite] = useState(props.itemsPerSite || 30);
   const [sortColumnIndex, setSortColumnIndex] = useState(
     props.sortColumnIndes || 0
   );
@@ -57,7 +57,7 @@ const List = props => {
   };
 
   return (
-    <div className="_34d3dd831ac8">
+    <div className={`_34d3dd831ac8 ${props.className}`}>
       <Pagination
         itemsCount={data.length}
         itemsPerSite={itemsPerSite}

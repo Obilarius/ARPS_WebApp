@@ -12,16 +12,19 @@ const Tiles = props => {
         icon={<UserIcon />}
         number={props.usersCount}
         text="Benutzer im AD"
+        onClick={() => props.onClick("u")}
       />
       <Tile
         icon={<GroupIcon />}
         number={props.groupsCount}
         text="Gruppen im AD"
+        onClick={() => props.onClick("g")}
       />
       <Tile
         icon={<ComputerIcon />}
         number={props.computersCount}
         text="Computer im AD"
+        onClick={() => props.onClick("c")}
       />
     </div>
   );
