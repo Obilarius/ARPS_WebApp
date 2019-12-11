@@ -11,24 +11,33 @@ const ActiveDirectorySite = () => {
   const [users, setUsers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [computers, setComputers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filteredGroups, setFilteredGroups] = useState([]);
+  const [filteredComputers, setFilteredComputers] = useState([]);
   const [listOption, setListOption] = useState("u");
 
   useEffect(() => {
     Axios.get("http://localhost:8000/ad/users").then(res => {
       setUsers(res.data);
+      setFilteredUsers(res.data);
     });
 
     Axios.get("http://localhost:8000/ad/groups").then(res => {
       setGroups(res.data);
+      setFilteredGroups(res.data);
     });
 
     Axios.get("http://localhost:8000/ad/computers").then(res => {
       setComputers(res.data);
+      setFilteredComputers(res.data);
     });
   }, []);
 
   const clickTileHandler = key => {
     setListOption(key);
+    setFilteredUsers(users);
+    setFilteredGroups(groups);
+    setFilteredComputers(computers);
   };
 
   const getList = () => {
@@ -37,7 +46,7 @@ const ActiveDirectorySite = () => {
         <List
           key="usersList"
           className="list"
-          data={users}
+          data={filteredUsers}
           headers={["AccountName", "Name", "DistinguishedName"]}
           columns={["SamAccountName", "DisplayName", "DistinguishedName"]}
           widths={["400px", "500px", "auto"]}
@@ -51,7 +60,7 @@ const ActiveDirectorySite = () => {
         <List
           key="groupsList"
           className="list"
-          data={groups}
+          data={filteredGroups}
           headers={[
             "AccountName",
             "Name",
@@ -77,7 +86,7 @@ const ActiveDirectorySite = () => {
         <List
           key="computersList"
           className="list"
-          data={computers}
+          data={filteredComputers}
           headers={["Name", "Description", "DistinguishedName"]}
           columns={["Name", "Description", "DistinguishedName"]}
           widths={["400px", "500px", "auto"]}
@@ -92,7 +101,29 @@ const ActiveDirectorySite = () => {
   };
 
   const onSearchHandler = term => {
-    console.log(term);
+    const filterList = (list, term) => {
+      return list.filter(item => {
+        const values = Object.values(item);
+        let ret = false;
+
+        values.forEach(value => {
+          if (
+            value
+              .toString()
+              .toLowerCase()
+              .includes(term.toLowerCase())
+          )
+            ret = true;
+          return;
+        });
+
+        return ret;
+      });
+    };
+
+    if (listOption === "u") setFilteredUsers(filterList(users, term));
+    if (listOption === "g") setFilteredGroups(filterList(groups, term));
+    if (listOption === "c") setFilteredComputers(filterList(computers, term));
   };
 
   return (
