@@ -40,6 +40,7 @@ const Searchfield = props => {
     setSearchTerm("");
     setShowDropdown(false);
     setShowClear(false);
+    onChange({ target: { value: "" } });
   };
 
   return (
