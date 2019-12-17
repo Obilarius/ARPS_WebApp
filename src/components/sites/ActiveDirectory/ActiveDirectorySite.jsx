@@ -6,6 +6,7 @@ import List from "../../../utils/List/List";
 
 import "./ActiveDirectorySite.scss";
 import Searchfield from "../../../utils/Searchfield";
+import Info from "./Info/Info";
 
 const ActiveDirectorySite = () => {
   const [users, setUsers] = useState([]);
@@ -15,6 +16,8 @@ const ActiveDirectorySite = () => {
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [filteredComputers, setFilteredComputers] = useState([]);
   const [listOption, setListOption] = useState("u");
+  const [infoIsOpen, setInfoIsOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
     Axios.get("http://localhost:8000/ad/users").then(res => {
@@ -38,6 +41,7 @@ const ActiveDirectorySite = () => {
     setFilteredUsers(users);
     setFilteredGroups(groups);
     setFilteredComputers(computers);
+    setInfoIsOpen(false);
   };
 
   const getList = () => {
@@ -97,7 +101,10 @@ const ActiveDirectorySite = () => {
   };
 
   const clickRowHandler = item => {
-    console.log(item.SID);
+    // console.log(item);
+
+    setActiveItem(item);
+    setInfoIsOpen(true);
   };
 
   const onSearchHandler = term => {
@@ -128,7 +135,7 @@ const ActiveDirectorySite = () => {
 
   return (
     <div id="_16fa12" className="container">
-      <SiteWrapperWithHeader title="Active Directory" infoIsOpen={false}>
+      <SiteWrapperWithHeader title="Active Directory" infoIsOpen={infoIsOpen}>
         <Tiles
           usersCount={users.length}
           groupsCount={groups.length}
@@ -142,6 +149,7 @@ const ActiveDirectorySite = () => {
         />
         {getList()}
       </SiteWrapperWithHeader>
+      {infoIsOpen && <Info item={activeItem} type={listOption} />}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 @import "../../css/main-var.scss";
 
 #_641630 {
-  background: white;
-  height: 60px;
-  border-bottom: 2px solid #cccccc;
+  background: $backgroundColor;
+  height: 70px;
+  border-bottom: 2px solid $borderColor;
+  border-top: 10px solid $blue;
   position: fixed;
   top: 0;
   left: 0;
@@ -46,7 +47,7 @@
 
         &:hover,
         &.active {
-          background: rgb(235, 235, 235)
+          background: $lightGrey;
         }
       }
     }

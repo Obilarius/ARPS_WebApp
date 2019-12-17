@@ -1,5 +1,9 @@
 /* @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700"); */
 @import url("http://fonts.googleapis.com/css?family=Roboto:400,500,700");
+@import "./css/main-var.scss";
+@import "./css/mixins.scss";
+
+@include scrollbars(0.5em, $blue, $lightGrey);
 
 body {
   margin: 0;
@@ -9,7 +13,8 @@ body {
   font-family: "Roboto", "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #eeeeee;
+  background: $lightGrey;
+  color: $black;
 }
 
 * {

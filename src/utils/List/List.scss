@@ -2,31 +2,32 @@
 
 ._34d3dd831ac8 {
   width: 100%;
-  background: $backgroundColor;
+  // background: $backgroundColor;
 
   .pagination {
     display: flex;
     width: 100%;
-    justify-content: center;
-    background: $borderColor;
+    justify-content: flex-end;
+    background: lighten($borderColor, 10%);
+    margin-bottom: 10px;
     // border-bottom: $backgroundColor 2px solid;
 
     >div {
       width: 40px;
       padding: 10px 0;
-      border: 1px solid $borderColor;
+      // border: 1px solid $borderColor;
       display: flex;
       justify-content: center;
       border: 0;
-      border-right: $darkGrey solid 1px;
-      border-bottom: $darkGrey solid 1px;
+      // border-right: $black solid 1px;
+      // border-bottom: $black solid 1px;
 
       &:nth-child(1) {
-        border-left: $darkGrey solid 1px;
+        // border-left: $black solid 1px;
       }
 
       &.active {
-        background: darken($borderColor, 20%);
+        background: $borderColor;
       }
     }
   }
@@ -35,6 +36,7 @@
     width: 100%;
     border-collapse: collapse;
     border: 1px solid $borderColor;
+    background: $backgroundColor;
 
     thead {
       background: $borderColor;
@@ -64,7 +66,7 @@
         }
 
         &.disabled {
-          color: rgba(0, 0, 0, 0.4)
+          color: $disabledListItems
         }
 
         td {
