@@ -11,11 +11,51 @@ router.get("/shares", (req, res, next) => {
       return sql.query `select * from fs.shares`;
     })
     .then(result => {
-      res.send(result);
+      res.send(result.recordset);
     })
     .catch(err => {
       res.status(500).send("ERROR");
     });
+});
+
+router.get("/shares/:servername", (req, res, next) => {
+  if (!req.params.servername) res.status(500)
+  const servername = "\\\\" + req.params.servername + "%"
+
+  sql
+    .connect(sqlconfig)
+    .then(() => {
+      // Query
+      return sql.query `SELECT * FROM fs.shares WHERE _unc_path_name LIKE ${servername}`;
+    })
+    .then(result => {
+      res.send(result.recordset);
+    })
+    .catch(err => {
+      res.status(500).send("ERROR");
+    });
+
+
+
+  // const pool = new sql.ConnectionPool(sqlconfig);
+  // pool.connect().then(() => {
+  //   var ps = new sql.PreparedStatement(pool);
+  //   ps.input('id', sql.Int);
+  //   ps.prepare("SELECT * FROM fs.shares WHERE _unc_path_name LIKE @name", function (err) {
+  //     if (err) return res.status(500).send(err)
+
+  //     ps.execute({
+  //       name: "\\\\" + req.params.servername + "%"
+  //     }, function (err, result) {
+  //       ps.unprepare(function (err) {
+  //         if (err) return res.status(500).send(err)
+  //       });
+
+  //       if (err) return res.status(500).send(err)
+  //       res.send(result)
+  //     });
+  //   });
+  // })
 });
 
 router.get("/children/:parentPathId", (req, res, next) => {
