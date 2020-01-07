@@ -9,8 +9,13 @@
   >.header {
     font-size: 25px;
     color: $blue;
-    margin: 20px 0;
+    // margin: 20px 0;
+    padding-top: 1px;
     font-weight: 500;
+
+    h2 {
+      margin-top: 20px;
+    }
   }
 
   >.tiles {
