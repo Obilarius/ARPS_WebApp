@@ -15,7 +15,7 @@ const ActiveDirectorySite = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [filteredComputers, setFilteredComputers] = useState([]);
-  const [listOption, setListOption] = useState("u");
+  const [activeTile, setActiveTile] = useState("u");
   const [infoIsOpen, setInfoIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
 
@@ -37,7 +37,7 @@ const ActiveDirectorySite = () => {
   }, []);
 
   const clickTileHandler = key => {
-    setListOption(key);
+    setActiveTile(key);
     setFilteredUsers(users);
     setFilteredGroups(groups);
     setFilteredComputers(computers);
@@ -45,7 +45,7 @@ const ActiveDirectorySite = () => {
   };
 
   const getList = () => {
-    if (listOption === "u") {
+    if (activeTile === "u") {
       return (
         <List
           key="usersList"
@@ -59,7 +59,7 @@ const ActiveDirectorySite = () => {
       );
     }
 
-    if (listOption === "g") {
+    if (activeTile === "g") {
       return (
         <List
           key="groupsList"
@@ -85,7 +85,7 @@ const ActiveDirectorySite = () => {
       );
     }
 
-    if (listOption === "c") {
+    if (activeTile === "c") {
       return (
         <List
           key="computersList"
@@ -128,9 +128,9 @@ const ActiveDirectorySite = () => {
       });
     };
 
-    if (listOption === "u") setFilteredUsers(filterList(users, term));
-    if (listOption === "g") setFilteredGroups(filterList(groups, term));
-    if (listOption === "c") setFilteredComputers(filterList(computers, term));
+    if (activeTile === "u") setFilteredUsers(filterList(users, term));
+    if (activeTile === "g") setFilteredGroups(filterList(groups, term));
+    if (activeTile === "c") setFilteredComputers(filterList(computers, term));
   };
 
   return (
@@ -140,6 +140,7 @@ const ActiveDirectorySite = () => {
           usersCount={users.length}
           groupsCount={groups.length}
           computersCount={computers.length}
+          activeTile={activeTile}
           onClick={key => clickTileHandler(key)}
         />
         <Searchfield
@@ -149,7 +150,7 @@ const ActiveDirectorySite = () => {
         />
         {getList()}
       </SiteWrapperWithHeader>
-      {infoIsOpen && <Info item={activeItem} type={listOption} />}
+      {infoIsOpen && <Info item={activeItem} type={activeTile} />}
     </div>
   );
 };

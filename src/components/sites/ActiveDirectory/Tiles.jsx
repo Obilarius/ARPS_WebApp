@@ -9,18 +9,21 @@ const Tiles = props => {
   return (
     <div className="tiles">
       <Tile
+        className={props.activeTile === "u" ? "active" : ""}
         icon={<UserIcon />}
         number={props.usersCount}
         text="Benutzer im AD"
         onClick={() => props.onClick("u")}
       />
       <Tile
+        className={props.activeTile === "g" ? "active" : ""}
         icon={<GroupIcon />}
         number={props.groupsCount}
         text="Gruppen im AD"
         onClick={() => props.onClick("g")}
       />
       <Tile
+        className={props.activeTile === "c" ? "active" : ""}
         icon={<ComputerIcon />}
         number={props.computersCount}
         text="Computer im AD"

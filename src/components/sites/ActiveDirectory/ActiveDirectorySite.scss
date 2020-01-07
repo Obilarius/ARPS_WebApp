@@ -6,11 +6,16 @@ $columnCount: 3;
   .tiles {
     .tile {
       position: relative;
-      transition: all 5s ease-in;
+      transition: bottom .1s ease-in;
       cursor: pointer;
+      bottom: 0px;
 
       &:hover {
         bottom: 5px;
+      }
+
+      &.active {
+        color: $blue;
       }
     }
   }
