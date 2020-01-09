@@ -7,59 +7,21 @@ import Loader from "../../../utils/Loader";
 import FolderInfo from "./FolderInfo/FolderInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Searchfield from "../../../utils/Searchfield";
+import { Treebeard } from "react-treebeard/dist";
 
 class FileserverSite extends Component {
   state = {
+    treeviewData: {
+      Title: "ROOT",
+      FullUrl: "",
+      toggled: true,
+      children: []
+    },
     pathUrls: [],
     searchDropdown: [],
     searchSID: null,
     loading: false,
     infoIsOpen: false
-  };
-
-  distinctFileserver = shares => {
-    const dfs = [];
-
-    const search = (nameKey, myArray) => {
-      for (var i = 0; i < myArray.length; i++) {
-        if (myArray[i].name === nameKey) {
-          return myArray[i];
-        }
-      }
-    };
-
-    shares.forEach(share => {
-      const name = share._unc_path_name.substring(2).split("\\")[0];
-
-      const searchedShare = search(name, dfs);
-      if (!searchedShare) {
-        // nicht in Array
-        // const splittedPath = share._unc_path_name.split("\\");
-        // share.name = splittedPath[splittedPath.length - 1];
-        // share.type = "Share";
-        // if (share._has_children) share.children = [];
-
-        dfs.push({
-          name: name,
-          _size: parseInt(share._size),
-          _has_children: true,
-          // children: [share],
-          children: [],
-          type: "Server"
-        });
-      } else {
-        // bereits in Array
-        // const splittedPath = share._unc_path_name.split("\\");
-        // share.name = splittedPath[splittedPath.length - 1];
-        // share.type = "Share";
-        // // share.loading = true;
-        // if (share._has_children) share.children = [];
-        searchedShare._size += parseInt(share._size);
-        // searchedShare.children.push(share);
-      }
-    });
-
-    this.setState({ Fileserver: dfs });
   };
 
   componentDidMount = () => {
@@ -68,22 +30,16 @@ class FileserverSite extends Component {
         element.children = [];
       });
 
-      this.setState({ pathUrls: res.data });
+      const rootPaths = { ...this.state.treeviewData };
+      rootPaths.children = res.data.filter(path => path.ParentWebId === null);
+
+      this.setState({ pathUrls: res.data, treeviewData: rootPaths });
     });
-  };
-
-  getChildNodes = (node, toggled) => {
-    const children = this.state.pathUrls.filter(
-      path => path.ParentWebId === node.Id
-    );
-    node.children = children;
-
-    this.setState({ loading: false });
   };
 
   treeviewOnToggleHandler = (node, toggled) => {
     this.setState({ loading: true });
-    const { activeNode } = this.state;
+    const { treeviewData, activeNode } = this.state;
 
     // Deaktiviert alte Node und aktiviert neue Node
     if (activeNode) {
@@ -91,9 +47,18 @@ class FileserverSite extends Component {
       oldActiveNode.active = false;
     }
     node.active = true;
-    this.setState({ activeNode: node, infoIsOpen: true });
+    node.toggled = toggled;
 
-    this.getChildNodes(node, toggled);
+    node.children = this.state.pathUrls.filter(
+      path => path.ParentWebId === node.Id
+    );
+
+    this.setState(() => ({
+      treeviewData: { ...treeviewData },
+      loading: false,
+      activeNode: node,
+      infoIsOpen: true
+    }));
   };
 
   onSearchHandler = item => {
@@ -103,13 +68,12 @@ class FileserverSite extends Component {
   render() {
     const {
       pathUrls,
+      treeviewData,
       searchDropdown,
       loading,
       activeNode,
       infoIsOpen
     } = this.state;
-
-    const rootPaths = pathUrls.filter(path => path.ParentWebId === null);
 
     return (
       <div id="_72bd0a" className="container">
@@ -124,7 +88,7 @@ class FileserverSite extends Component {
           />
           <div className="treeviews">
             <Treeview
-              data={rootPaths}
+              data={treeviewData}
               onToggle={this.treeviewOnToggleHandler}
             />
           </div>

@@ -1,7 +1,6 @@
 import React from "react";
 
 const Node = props => {
-  console.log("Test" + props.name);
   return (
     <div>
       <div>props.name</div>
