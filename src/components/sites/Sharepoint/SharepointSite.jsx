@@ -4,23 +4,17 @@ import "./SharepointSite.scss";
 import Tiles from "./Tiles";
 import Treeview from "./Treeview/Treeview";
 import Loader from "../../../utils/Loader";
-import FolderInfo from "./FolderInfo/FolderInfo";
+import WSSInfo from "./WSSInfo/WSSInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Searchfield from "../../../utils/Searchfield";
-import { Treebeard } from "react-treebeard/dist";
 
 class FileserverSite extends Component {
   state = {
-    treeviewData: {
-      Title: "ROOT",
-      FullUrl: "",
-      toggled: true,
-      children: []
-    },
+    treeviewData: [],
     pathUrls: [],
     searchDropdown: [],
     searchSID: null,
-    loading: false,
+    loading: true,
     infoIsOpen: false
   };
 
@@ -30,10 +24,16 @@ class FileserverSite extends Component {
         element.children = [];
       });
 
-      const rootPaths = { ...this.state.treeviewData };
-      rootPaths.children = res.data.filter(path => path.ParentWebId === null);
+      // const rootPaths = { ...this.state.treeviewData };
+      // rootPaths.children = res.data.filter(path => path.ParentWebId === null);
 
-      this.setState({ pathUrls: res.data, treeviewData: rootPaths });
+      const tvData = res.data.filter(path => path.ParentWebId === null);
+
+      this.setState({
+        pathUrls: res.data,
+        treeviewData: tvData,
+        loading: false
+      });
     });
   };
 
@@ -54,7 +54,7 @@ class FileserverSite extends Component {
     );
 
     this.setState(() => ({
-      treeviewData: { ...treeviewData },
+      treeviewData: [...treeviewData],
       loading: false,
       activeNode: node,
       infoIsOpen: true
@@ -87,10 +87,15 @@ class FileserverSite extends Component {
             onSearch={this.onSearchHandler}
           />
           <div className="treeviews">
-            <Treeview
-              data={treeviewData}
-              onToggle={this.treeviewOnToggleHandler}
-            />
+            {treeviewData.map(tree => {
+              return (
+                <Treeview
+                  key={tree.Title + "-" + tree.Id}
+                  data={tree}
+                  onToggle={this.treeviewOnToggleHandler}
+                />
+              );
+            })}
           </div>
         </SiteWrapperWithHeader>
         {infoIsOpen && <FolderInfo folder={activeNode} />}
