@@ -21,6 +21,7 @@ app.use("/fsdetails", require("./routes/fileserverDetails"));
 app.use("/user", require("./routes/user"));
 app.use("/ad", require("./routes/ad"));
 app.use("/ldap", require("./routes/ldap"));
+app.use("/wss", require("./routes/sharepoint"));
 
 // error handling middleware
 app.use((err, req, res, next) => {

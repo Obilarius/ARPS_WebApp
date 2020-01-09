@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const sql = require("mssql");
-const sqlconfig = require("../config/mssql");
+const sqlconfig = require("../config/mssql_arps");
 
 router.get("/owner/:sid", (req, res, next) => {
   const sid = req.params.sid;

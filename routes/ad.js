@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const sql = require("mssql");
-const sqlconfig = require("../config/mssql");
+const sqlconfig = require("../config/mssql_arps");
 
 router.get("/children/:parentPathId", (req, res, next) => {
   const parentPathId = req.params.parentPathId;
@@ -30,66 +30,54 @@ router.get("/children/:parentPathId", (req, res, next) => {
 
 });
 
-router.get("/users", (req, res, next) => {
-  sql
-    .connect(sqlconfig)
-    .then(() => {
-      // Query
-      return sql.query `SELECT * FROM dbo.adusers`;
-    })
-    .then(result => {
-      res.send(result.recordset);
-    })
-    .catch(err => {
-      res.status(500).send("ERROR");
-    });
+router.get("/users", async (req, res, next) => {
+  try {
+    const conn = await sql.connect(sqlconfig);
+    let result = await conn.query(`SELECT * FROM dbo.adusers`);
+    res.send(result.recordset);
+  } catch (err) {
+    res.status(500).send("Fehler: " + err);
+  } finally {
+    sql.close(); //closing connection after request is finished.
+  }
 });
 
-router.get("/groups", (req, res, next) => {
-  sql
-    .connect(sqlconfig)
-    .then(() => {
-      // Query
-      return sql.query `SELECT * FROM dbo.adgroups`;
-    })
-    .then(result => {
-      res.send(result.recordset);
-    })
-    .catch(err => {
-      res.status(500).send("ERROR");
-    });
+router.get("/groups", async (req, res, next) => {
+  try {
+    const conn = await sql.connect(sqlconfig);
+    let result = await conn.query(`SELECT * FROM dbo.adgroups`);
+    res.send(result.recordset);
+  } catch (err) {
+    res.status(500).send("Fehler: " + err);
+  } finally {
+    sql.close(); //closing connection after request is finished.
+  }
 });
 
-router.get("/computers", (req, res, next) => {
-  sql
-    .connect(sqlconfig)
-    .then(() => {
-      // Query
-      return sql.query `SELECT * FROM dbo.adcomputers`;
-    })
-    .then(result => {
-      res.send(result.recordset);
-    })
-    .catch(err => {
-      res.status(500).send("ERROR");
-    });
+router.get("/computers", async (req, res, next) => {
+  try {
+    const conn = await sql.connect(sqlconfig);
+    let result = await conn.query(`SELECT * FROM dbo.adcomputers`);
+    res.send(result.recordset);
+  } catch (err) {
+    res.status(500).send("Fehler: " + err);
+  } finally {
+    sql.close(); //closing connection after request is finished.
+  }
 });
 
 
 
-router.get("/userandgroupssid", (req, res, next) => {
-  sql
-    .connect(sqlconfig)
-    .then(() => {
-      // Query
-      return sql.query `SELECT SID, DisplayName as Name, 0 as isGroup FROM dbo.adusers UNION SELECT SID, Name, 1 as isGroup FROM dbo.adgroups`;
-    })
-    .then(result => {
-      res.send(result.recordset);
-    })
-    .catch(err => {
-      res.status(500).send("ERROR");
-    });
+router.get("/userandgroupssid", async (req, res, next) => {
+  try {
+    const conn = await sql.connect(sqlconfig);
+    let result = await conn.query(`SELECT SID, DisplayName as Name, 0 as isGroup FROM dbo.adusers UNION SELECT SID, Name, 1 as isGroup FROM dbo.adgroups`);
+    res.send(result.recordset);
+  } catch (err) {
+    res.status(500).send("Fehler: " + err);
+  } finally {
+    sql.close(); //closing connection after request is finished.
+  }
 });
 
 module.exports = router;
