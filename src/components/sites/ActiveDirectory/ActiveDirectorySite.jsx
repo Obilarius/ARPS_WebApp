@@ -51,9 +51,14 @@ const ActiveDirectorySite = () => {
           key="usersList"
           className="list"
           data={filteredUsers}
-          headers={["AccountName", "Name", "DistinguishedName"]}
-          columns={["SamAccountName", "DisplayName", "DistinguishedName"]}
-          widths={["400px", "500px", "auto"]}
+          headers={["AccountName", "Name", "DistinguishedName", "Status"]}
+          columns={[
+            "SamAccountName",
+            "DisplayName",
+            "DistinguishedName",
+            "Enabled"
+          ]}
+          widths={["400px", "500px", "auto", "100px"]}
           onRowClick={user => clickRowHandler(user)}
         />
       );

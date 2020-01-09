@@ -1,0 +1,18 @@
+@import "../../../css/main-var.scss";
+
+#_72bd0a {
+  .treeviews {
+    background: $backgroundColor;
+    border: 1px solid $borderColor;
+
+    ul {
+      background: $backgroundColor;
+      font-family: inherit;
+
+      // svg {
+      //   fill: $darkGrey;
+      //   color: $darkGrey;
+      // }
+    }
+  }
+}

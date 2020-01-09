@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import FileserverSite from "./components/sites/FileserverSite/FileserverSite";
 import ActiveDirectorySite from "./components/sites/ActiveDirectory/ActiveDirectorySite";
+import SharepointSite from "./components/sites/Sharepoint/SharepointSite";
 
 const App = () => {
   return (
@@ -18,6 +19,9 @@ const App = () => {
           </Route>
           <Route path="/ad">
             <ActiveDirectorySite />
+          </Route>
+          <Route path="/wss">
+            <SharepointSite />
           </Route>
         </Switch>
       </section>

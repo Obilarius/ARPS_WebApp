@@ -21,6 +21,9 @@ const Navbar = () => {
           <NavLink className="link" to="/fileserver">
             Fileserver
           </NavLink>
+          <NavLink className="link" to="/wss">
+            Sharepoint
+          </NavLink>
         </div>
         <NavLink className="user" to="/user/admin">
           Administrator
