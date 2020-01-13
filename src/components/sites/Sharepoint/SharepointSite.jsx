@@ -98,7 +98,7 @@ class FileserverSite extends Component {
             })}
           </div>
         </SiteWrapperWithHeader>
-        {infoIsOpen && <FolderInfo folder={activeNode} />}
+        {infoIsOpen && <WSSInfo data={activeNode} />}
       </div>
     );
   }

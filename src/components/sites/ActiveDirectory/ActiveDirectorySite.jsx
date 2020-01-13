@@ -20,19 +20,13 @@ const ActiveDirectorySite = () => {
   const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/ad/users").then(res => {
-      setUsers(res.data);
-      setFilteredUsers(res.data);
-    });
-
-    Axios.get("http://localhost:8000/ad/groups").then(res => {
-      setGroups(res.data);
-      setFilteredGroups(res.data);
-    });
-
-    Axios.get("http://localhost:8000/ad/computers").then(res => {
-      setComputers(res.data);
-      setFilteredComputers(res.data);
+    Axios.get("http://localhost:8000/ad/").then(res => {
+      setUsers(res.data.users);
+      setFilteredUsers(res.data.users);
+      setGroups(res.data.groups);
+      setFilteredGroups(res.data.groups);
+      setComputers(res.data.computers);
+      setFilteredComputers(res.data.computers);
     });
   }, []);
 

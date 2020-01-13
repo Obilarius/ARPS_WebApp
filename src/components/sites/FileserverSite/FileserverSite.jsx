@@ -65,32 +65,32 @@ class FileserverSite extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("http://localhost:8000/fileserver/shares").then(res => {
-      this.distinctFileserver(res.data);
+    axios.get("http://localhost:8000/fileserver/").then(res => {
+      this.distinctFileserver(res.data.shares);
 
       let sum = 0;
       this.state.Fileserver.forEach(server => {
         sum += server._size;
       });
-      this.setState({ sumSize: sum });
-    });
+      this.setState({ sumSize: sum, folderCount: res.data.foldercount });
 
-    axios.get("http://localhost:8000/fileserver/foldercount").then(res => {
-      this.setState({ folderCount: res.data.recordset[0].folderCount });
-    });
+      axios.get("http://localhost:8000/ad/userandgroupssid").then(res2 => {
+        const result = [];
 
-    axios.get("http://localhost:8000/ad/userandgroupssid").then(res => {
-      const result = [];
+        res2.data.forEach(item => {
+          result.push({
+            key: item.SID,
+            icon: item.isGroup,
+            value: item.Name
+          });
+        });
 
-      res.data.forEach(item => {
-        result.push({
-          key: item.SID,
-          icon: item.isGroup,
-          value: item.Name
+        this.setState({
+          sumSize: sum,
+          folderCount: res.data.foldercount,
+          searchDropdown: result
         });
       });
-
-      this.setState({ searchDropdown: result });
     });
   };
 
