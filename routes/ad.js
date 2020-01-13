@@ -48,6 +48,7 @@ router.get("/groups", async (req, res, next) => {
     let result = await conn.query(`SELECT * FROM dbo.adgroups`);
     res.send(result.recordset);
   } catch (err) {
+    console.log(err)
     res.status(500).send("Fehler: " + err);
   } finally {
     sql.close(); //closing connection after request is finished.

@@ -54,11 +54,11 @@ router.get("/getPaths", async (req, res, next) => {
       return;
     }
 
-    let query = `SELECT FullUrl, Title, Id, ParentWebId FROM ${retArray[0]}.dbo.Webs`;
+    let query = `SELECT FullUrl, Title, Id, ParentWebId, '${retArray[0]}' as ContentDB FROM ${retArray[0]}.dbo.Webs`;
 
     for (let i = 1; i < retArray.length; i++) {
       const element = retArray[i];
-      query += ` UNION ALL SELECT FullUrl, Title, Id, ParentWebId FROM ${element}.dbo.Webs`;
+      query += ` UNION ALL SELECT FullUrl, Title, Id, ParentWebId, '${element}' as ContentDB FROM ${element}.dbo.Webs`;
     }
     query += ` ORDER BY FullUrl`;
 

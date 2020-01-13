@@ -9,7 +9,7 @@ router.get("/shares", async (req, res, next) => {
     let result = await conn.query(`select * from fs.shares`);
     res.send(result.recordset);
   } catch (err) {
-    res.send("Fehler: " + err);
+    res.status(500).send("Fehler: " + err);
   } finally {
     sql.close(); //closing connection after request is finished.
   }
@@ -24,7 +24,7 @@ router.get("/shares/:servername", async (req, res, next) => {
     let result = await conn.query(`SELECT * FROM fs.shares WHERE _unc_path_name LIKE ${servername}`);
     res.send(result.recordset);
   } catch (err) {
-    res.send("Fehler: " + err);
+    res.status(500).send("Fehler: " + err);
   } finally {
     sql.close(); //closing connection after request is finished.
   }
@@ -63,7 +63,7 @@ router.get("/foldercount", async (req, res, next) => {
     let result = await conn.query(`SELECT Count(*) as folderCount FROM fs.dirs`);
     res.send(result.recordset);
   } catch (err) {
-    res.send("Fehler: " + err);
+    res.status(500).send("Fehler: " + err);
   } finally {
     sql.close(); //closing connection after request is finished.
   }
@@ -75,7 +75,7 @@ router.get("/sumsize", async (req, res, next) => {
     let result = await conn.query(`SELECT sum(_size) as sum FROM fs.shares`);
     res.send(result.recordset);
   } catch (err) {
-    res.send("Fehler: " + err);
+    res.status(500).send("Fehler: " + err);
   } finally {
     sql.close(); //closing connection after request is finished.
   }
