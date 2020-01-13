@@ -30,44 +30,23 @@ router.get("/children/:parentPathId", (req, res, next) => {
 
 });
 
-router.get("/users", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const conn = await sql.connect(sqlconfig);
-    let result = await conn.query(`SELECT * FROM dbo.adusers`);
-    res.send(result.recordset);
+    let users = await conn.query(`SELECT * FROM dbo.adusers`);
+    let groups = await conn.query(`SELECT * FROM dbo.adgroups`);
+    let computers = await conn.query(`SELECT * FROM dbo.adcomputers`);
+    res.send({
+      users: users.recordset,
+      groups: groups.recordset,
+      computers: computers.recordset
+    });
   } catch (err) {
     res.status(500).send("Fehler: " + err);
   } finally {
     sql.close(); //closing connection after request is finished.
   }
 });
-
-router.get("/groups", async (req, res, next) => {
-  try {
-    const conn = await sql.connect(sqlconfig);
-    let result = await conn.query(`SELECT * FROM dbo.adgroups`);
-    res.send(result.recordset);
-  } catch (err) {
-    console.log(err)
-    res.status(500).send("Fehler: " + err);
-  } finally {
-    sql.close(); //closing connection after request is finished.
-  }
-});
-
-router.get("/computers", async (req, res, next) => {
-  try {
-    const conn = await sql.connect(sqlconfig);
-    let result = await conn.query(`SELECT * FROM dbo.adcomputers`);
-    res.send(result.recordset);
-  } catch (err) {
-    res.status(500).send("Fehler: " + err);
-  } finally {
-    sql.close(); //closing connection after request is finished.
-  }
-});
-
-
 
 router.get("/userandgroupssid", async (req, res, next) => {
   try {

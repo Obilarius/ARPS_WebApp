@@ -3,11 +3,15 @@ const router = express.Router();
 const sql = require("mssql");
 const sqlconfig = require("../config/mssql_arps");
 
-router.get("/shares", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const conn = await sql.connect(sqlconfig);
-    let result = await conn.query(`select * from fs.shares`);
-    res.send(result.recordset);
+    let shares = await conn.query(`select * from fs.shares`);
+    let foldercount = await conn.query(`SELECT Count(*) as count FROM fs.dirs`);
+    res.send({
+      shares: shares.recordset,
+      foldercount: foldercount.recordset[0].count
+    });
   } catch (err) {
     res.status(500).send("Fehler: " + err);
   } finally {
@@ -55,18 +59,6 @@ router.get("/children/:parentPathId", (req, res, next) => {
     });
   })
 
-});
-
-router.get("/foldercount", async (req, res, next) => {
-  try {
-    const conn = await sql.connect(sqlconfig);
-    let result = await conn.query(`SELECT Count(*) as folderCount FROM fs.dirs`);
-    res.send(result.recordset);
-  } catch (err) {
-    res.status(500).send("Fehler: " + err);
-  } finally {
-    sql.close(); //closing connection after request is finished.
-  }
 });
 
 router.get("/sumsize", async (req, res, next) => {
