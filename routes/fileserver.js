@@ -25,7 +25,7 @@ router.get("/shares/:servername", async (req, res, next) => {
 
   try {
     const conn = await sql.connect(sqlconfig);
-    let result = await conn.query(`SELECT * FROM fs.shares WHERE _unc_path_name LIKE ${servername}`);
+    let result = await conn.query(`SELECT * FROM fs.shares WHERE _unc_path_name LIKE '${servername}'`);
     res.send(result.recordset);
   } catch (err) {
     res.status(500).send("Fehler: " + err);
