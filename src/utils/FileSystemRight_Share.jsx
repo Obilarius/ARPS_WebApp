@@ -7,7 +7,7 @@ import { ReactComponent as FolderIcon } from "../assets/FontAwesome/folder-solid
 import { ReactComponent as SubfolderIcon } from "../assets/FontAwesome/folder-tree-duotone.svg";
 import { ReactComponent as FilesIcon } from "../assets/FontAwesome/file-alt-duotone.svg";
 
-const FileSystemRight = ({ acl }) => {
+const FileSystemRight_Share = ({ acl }) => {
   const getFSR = (n, p, i) => {
     const b = index => {
       if ((n & (1 << index)) !== 0) {
@@ -96,10 +96,10 @@ const FileSystemRight = ({ acl }) => {
   const getHeader = () => {
     return (
       <>
-        <div></div>
-        <div className="header">
+        <div className="header header-title">SHARE</div>
+        {/* <div className="header">
           <p>Inherited</p>
-        </div>
+        </div> */}
         <div className="header">
           <p>FullControl</p>
         </div>
@@ -130,11 +130,7 @@ const FileSystemRight = ({ acl }) => {
       {getHeader()}
 
       {acl.map(item => {
-        const fsr = getFSR(
-          item._rights,
-          item._propagation_flags,
-          item._inheritance_flags
-        );
+        const fsr = getFSR(item._rights, item._flags, item._flags);
 
         const checkmarksClassList = item._is_inherited
           ? "checkmark inherit"
@@ -152,12 +148,12 @@ const FileSystemRight = ({ acl }) => {
                   <UserSolid style={{ marginLeft: "3px" }} />
                 )}
               </span>
-              {item._identity_name}
+              {item.Name}
             </div>
 
-            <div className="checkmark">
+            {/* <div className="checkmark">
               {item._is_inherited && <CheckSolid />}
-            </div>
+            </div> */}
             <div className={checkmarksClassList}>
               {fsr.effectiveRights.FullControl && <CheckSolid />}
             </div>
@@ -188,4 +184,4 @@ const FileSystemRight = ({ acl }) => {
   );
 };
 
-export default FileSystemRight;
+export default FileSystemRight_Share;

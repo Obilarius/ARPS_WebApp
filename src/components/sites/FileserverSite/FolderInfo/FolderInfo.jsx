@@ -5,12 +5,14 @@ import "./FolderInfo.scss";
 import FolderInfoRow from "./components/FolderInfoRow";
 import NodeIcon from "../Treeview/NodeIcon";
 import HumanReadableSize from "../../../../utils/HumanReadableSize";
-import FileSystemRight from "../../../../utils/FileSystemRight";
+import FileSystemRightNTFS from "../../../../utils/FileSystemRight_NTFS";
+import FileSystemRightShare from "../../../../utils/FileSystemRight_Share";
 
 const FolderInfo = ({ folder }) => {
   // const [size, setSize] = useState(0);
   const [owner, setOwner] = useState({ name: "Keinen Besitzer gefunden" });
   const [acl, setAcl] = useState([]);
+  const [shareAcl, setShareAcl] = useState([]);
 
   useEffect(() => {
     if (folder._owner_sid)
@@ -26,13 +28,22 @@ const FolderInfo = ({ folder }) => {
   }, [folder._owner_sid]);
 
   useEffect(() => {
-    if (folder._path_id)
+    if (folder._path_id) {
       axios
         .get(`http://localhost:8000/fsdetails/fsr/${folder._path_id}`)
         .then(res => {
           setAcl(res.data);
         });
-  }, [folder._path_id]);
+    }
+
+    if (folder.type === "Share") {
+      axios
+        .get(`http://localhost:8000/fileserver/shares/ace/${folder._path_id}`)
+        .then(res => {
+          setShareAcl(res.data);
+        });
+    }
+  }, [folder, folder._path_id, folder.type]);
 
   return (
     <div id="_13990f">
@@ -44,6 +55,14 @@ const FolderInfo = ({ folder }) => {
         <div className="overview">
           <FolderInfoRow value={folder._path_name} text="Pfad" />
           <FolderInfoRow value={folder._unc_path_name} text="Freigegeben als" />
+
+          {folder.type === "Share" && (
+            <FolderInfoRow value={folder._remark} text="Beschreibung" />
+          )}
+          {folder.type === "Share" && (
+            <FolderInfoRow value={folder._share_type} text="Freigabe Typ" />
+          )}
+
           <FolderInfoRow
             value={<HumanReadableSize bytes={folder._size} />}
             text="Größe"
@@ -55,8 +74,13 @@ const FolderInfo = ({ folder }) => {
           />
         </div>
         <div className="fsr">
-          <FileSystemRight acl={acl} />
+          <FileSystemRightNTFS acl={acl} />
         </div>
+        {folder.type === "Share" && (
+          <div className="fsr share">
+            <FileSystemRightShare acl={shareAcl} />
+          </div>
+        )}
       </div>
     </div>
   );

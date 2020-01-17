@@ -3,10 +3,10 @@ import axios from "axios";
 
 import "./WSSInfo.scss";
 import FolderInfoRow from "./components/FolderInfoRow";
-import HumanReadableSize from "../../../../utils/HumanReadableSize";
+// import HumanReadableSize from "../../../../utils/HumanReadableSize";
 
 const WSSInfo = ({ data }) => {
-  const [owner, setOwner] = useState({ name: "Keinen Besitzer gefunden" });
+  // const [owner, setOwner] = useState({ name: "Keinen Besitzer gefunden" });
 
   return (
     <div id="_13990f">
@@ -16,7 +16,7 @@ const WSSInfo = ({ data }) => {
           <h2>{data.Title}</h2>
         </header>
         <div className="overview">
-          <FolderInfoRow value={data.Id} text="Id" />
+          <FolderInfoRow value={data.Id} text="WebId" />
           <FolderInfoRow value={data.FullUrl} text="FullUrl" />
           <FolderInfoRow value={data.ContentDB} text="Content Datenbank" />
           {/* <FolderInfoRow value={data._path_name} text="Pfad" />
