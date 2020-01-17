@@ -34,6 +34,23 @@ router.get("/shares/:servername", async (req, res, next) => {
   }
 });
 
+router.get("/shares/ace/:pathid", async (req, res, next) => {
+  if (!req.params.pathid) res.status(500)
+  const pathid = req.params.pathid
+
+  try {
+    const conn = await sql.connect(sqlconfig);
+    let result = await conn.query(`SELECT sa._sid, sa._rights, sa._type, sa._flags, ad.Name, ad.isGroup FROM fs.share_aces sa
+    LEFT JOIN (SELECT SID, DisplayName as Name, 0 as isGroup FROM dbo.adusers UNION SELECT SID, Name, 1 as isGroup FROM dbo.adgroups) as ad ON ad.SID = sa._sid
+    WHERE _path_id = '${pathid}'`);
+    res.send(result.recordset);
+  } catch (err) {
+    res.status(500).send("Fehler: " + err);
+  } finally {
+    sql.close(); //closing connection after request is finished.
+  }
+});
+
 router.get("/children/:parentPathId", (req, res, next) => {
   const parentPathId = req.params.parentPathId;
 
