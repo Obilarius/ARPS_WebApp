@@ -7,6 +7,19 @@ import FolderInfoRow from "./components/FolderInfoRow";
 
 const WSSInfo = ({ data }) => {
   // const [owner, setOwner] = useState({ name: "Keinen Besitzer gefunden" });
+  const [acl, setAcl] = useState(null);
+
+  useEffect(() => {
+    if (data.Id) {
+      axios
+        .get(`http://localhost:8000/wss/getRights/${data.Id}/${data.ContentDB}`)
+        .then(res => {
+          setAcl(res.data);
+        });
+    }
+
+    // const grouped = groupBy(acl, ace => ace.GroupTitle);
+  }, [data.ContentDB, data.Id]);
 
   return (
     <div id="_13990f">
@@ -19,17 +32,31 @@ const WSSInfo = ({ data }) => {
           <FolderInfoRow value={data.Id} text="WebId" />
           <FolderInfoRow value={data.FullUrl} text="FullUrl" />
           <FolderInfoRow value={data.ContentDB} text="Content Datenbank" />
-          {/* <FolderInfoRow value={data._path_name} text="Pfad" />
-          <FolderInfoRow value={data._unc_path_name} text="Freigegeben als" />
-          <FolderInfoRow
-            value={<HumanReadableSize bytes={data._size} />}
-            text="Größe"
-          />
-          <FolderInfoRow
-            type={owner.isGroup ? "group" : "user"}
-            value={owner.name}
-            text="Besitzer"
-          /> */}
+        </div>
+
+        <div className="rights">
+          {acl &&
+            Object.keys(acl).map(grp => {
+              // console.log(acl[grp]);
+              return (
+                <React.Fragment key={grp}>
+                  <div className="group-header">
+                    {grp !== "null" ? grp : ""}
+                  </div>
+                  {acl[grp].map(ace => {
+                    return (
+                      <React.Fragment key={ace.Title + ace.UserTitle}>
+                        <div className="ace ace-usertitle">{ace.UserTitle}</div>
+                        <div className="ace ace-title">{ace.Title}</div>
+                        <div className="ace ace-domaingroup">
+                          {ace.tp_DomainGroup}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+                </React.Fragment>
+              );
+            })}
         </div>
       </div>
     </div>
