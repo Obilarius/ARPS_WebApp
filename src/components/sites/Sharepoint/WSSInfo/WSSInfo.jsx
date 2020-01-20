@@ -3,6 +3,7 @@ import axios from "axios";
 
 import "./WSSInfo.scss";
 import FolderInfoRow from "./components/FolderInfoRow";
+import WSSAcl from "./components/WSSAcl";
 // import HumanReadableSize from "../../../../utils/HumanReadableSize";
 
 const WSSInfo = ({ data }) => {
@@ -35,7 +36,8 @@ const WSSInfo = ({ data }) => {
         </div>
 
         <div className="rights">
-          {acl &&
+          <WSSAcl acl={acl} />
+          {/* {acl &&
             Object.keys(acl).map(grp => {
               // console.log(acl[grp]);
               return (
@@ -56,7 +58,7 @@ const WSSInfo = ({ data }) => {
                   })}
                 </React.Fragment>
               );
-            })}
+            })} */}
         </div>
       </div>
     </div>
