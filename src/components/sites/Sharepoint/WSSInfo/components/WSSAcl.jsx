@@ -6,7 +6,7 @@ import { ReactComponent as GroupSolid } from "../../../../../assets/FontAwesome/
 const WSSAcl = ({ acl }) => {
   if (acl === null) return <></>;
 
-  // console.log(acl);
+  console.log(acl);
 
   const ACL = Object.keys(acl).map(grp => {
     return (

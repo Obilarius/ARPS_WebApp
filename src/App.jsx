@@ -1,32 +1,52 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
+import axios from "axios";
 import Navbar from "./components/Navbar/Navbar";
 import FileserverSite from "./components/sites/FileserverSite/FileserverSite";
 import ActiveDirectorySite from "./components/sites/ActiveDirectory/ActiveDirectorySite";
 import SharepointSite from "./components/sites/Sharepoint/SharepointSite";
 
 const App = () => {
-  return (
-    <Router>
-      <Navbar />
-      <section className="content">
-        <Switch>
-          <Route path="/home">
-            <h1>HOME</h1>
-          </Route>
-          <Route path="/fileserver">
-            <FileserverSite />
-          </Route>
-          <Route path="/ad">
-            <ActiveDirectorySite />
-          </Route>
-          <Route path="/wss">
-            <SharepointSite />
-          </Route>
-        </Switch>
-      </section>
-    </Router>
-  );
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/ldap/user`).then(res => {
+      setUser(res.data);
+    });
+  }, []);
+
+  if (user) {
+    return (
+      <Router>
+        <Navbar userName={user.cn} />
+        <section className="content">
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+            <Route path="/home" exact>
+              {/* <h1>HOME</h1> */}
+              <Redirect to="/ad" />
+            </Route>
+            <Route path="/fileserver">
+              <FileserverSite />
+            </Route>
+            <Route path="/ad">
+              <ActiveDirectorySite />
+            </Route>
+            <Route path="/wss">
+              <SharepointSite />
+            </Route>
+          </Switch>
+        </section>
+      </Router>
+    );
+  } else return <></>;
 };
 
 export default App;

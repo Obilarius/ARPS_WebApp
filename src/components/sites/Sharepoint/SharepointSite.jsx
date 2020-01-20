@@ -80,12 +80,12 @@ class FileserverSite extends Component {
         {loading && <Loader />}
         <SiteWrapperWithHeader title="Sharepoint" infoIsOpen={infoIsOpen}>
           <Tiles pathCount={pathUrls.length} />
-          <Searchfield
+          {/* <Searchfield
             placeholder="Suche..."
             title="User oder Gruppe"
             dropdownItems={searchDropdown}
             onSearch={this.onSearchHandler}
-          />
+          /> */}
           <div className="treeviews">
             {treeviewData.map(tree => {
               return (

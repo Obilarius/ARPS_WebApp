@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import ArgesLogo from "../../assets/ArgesLogo";
 import "./Navbar.scss";
 
-const Navbar = () => {
+const Navbar = ({ userName }) => {
   return (
     <nav id="_641630">
       <div className="container">
-        <NavLink className="brand" to="/">
+        <NavLink className="brand" to="/home">
           <ArgesLogo />
           <h1>ARPS</h1>
         </NavLink>
@@ -26,7 +26,7 @@ const Navbar = () => {
           </NavLink>
         </div>
         <NavLink className="user" to="/user/admin">
-          Administrator
+          {userName}
         </NavLink>
       </div>
     </nav>
