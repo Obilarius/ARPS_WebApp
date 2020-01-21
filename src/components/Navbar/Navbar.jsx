@@ -25,9 +25,12 @@ const Navbar = ({ userName }) => {
             Sharepoint
           </NavLink>
         </div>
-        <NavLink className="user" to="/user/admin">
-          {userName}
-        </NavLink>
+        <div className="right">
+          <NavLink className="user" to="/user/admin">
+            {userName}
+          </NavLink>
+          <div className="version">v0.1(beta)</div>
+        </div>
       </div>
     </nav>
   );
