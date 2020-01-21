@@ -12,13 +12,13 @@ import ActiveDirectorySite from "./components/sites/ActiveDirectory/ActiveDirect
 import SharepointSite from "./components/sites/Sharepoint/SharepointSite";
 
 const App = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({ cn: "DummyUser" });
 
-  useEffect(() => {
-    axios.get(`http://localhost:8000/ldap/user`).then(res => {
-      setUser(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`http://localhost:8000/ldap/user`).then(res => {
+  //     setUser(res.data);
+  //   });
+  // }, []);
 
   if (user) {
     return (
