@@ -21,7 +21,6 @@ const ActiveDirectorySite = () => {
   const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
-    console.log(proxy);
     Axios.get(proxy + "/ad/").then(res => {
       setUsers(res.data.users);
       setFilteredUsers(res.data.users);
