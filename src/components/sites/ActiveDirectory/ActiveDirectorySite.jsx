@@ -7,6 +7,7 @@ import List from "../../../utils/List/List";
 import "./ActiveDirectorySite.scss";
 import Searchfield from "../../../utils/Searchfield";
 import Info from "./Info/Info";
+import { proxy } from "../../../vars";
 
 const ActiveDirectorySite = () => {
   const [users, setUsers] = useState([]);
@@ -20,7 +21,8 @@ const ActiveDirectorySite = () => {
   const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
-    Axios.get("http://arps-lnx:8000/ad/").then(res => {
+    console.log(proxy);
+    Axios.get(proxy + "/ad/").then(res => {
       setUsers(res.data.users);
       setFilteredUsers(res.data.users);
       setGroups(res.data.groups);

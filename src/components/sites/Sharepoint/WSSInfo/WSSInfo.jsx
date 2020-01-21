@@ -4,6 +4,7 @@ import axios from "axios";
 import "./WSSInfo.scss";
 import FolderInfoRow from "./components/FolderInfoRow";
 import WSSAcl from "./components/WSSAcl";
+import { proxy } from "../../../../vars";
 // import HumanReadableSize from "../../../../utils/HumanReadableSize";
 
 const WSSInfo = ({ data }) => {
@@ -13,7 +14,7 @@ const WSSInfo = ({ data }) => {
   useEffect(() => {
     if (data.Id) {
       axios
-        .get(`http://arps-lnx:8000/wss/getRights/${data.Id}/${data.ContentDB}`)
+        .get(proxy + `/wss/getRights/${data.Id}/${data.ContentDB}`)
         .then(res => {
           setAcl(res.data);
         });

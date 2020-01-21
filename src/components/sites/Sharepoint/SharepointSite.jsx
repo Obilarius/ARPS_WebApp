@@ -7,6 +7,7 @@ import Loader from "../../../utils/Loader";
 import WSSInfo from "./WSSInfo/WSSInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Searchfield from "../../../utils/Searchfield";
+import { proxy } from "../../../vars";
 
 class FileserverSite extends Component {
   state = {
@@ -19,7 +20,7 @@ class FileserverSite extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("http://arps-lnx:8000/wss/getPaths").then(res => {
+    axios.get(proxy + "/wss/getPaths").then(res => {
       res.data.forEach(element => {
         element.children = [];
       });

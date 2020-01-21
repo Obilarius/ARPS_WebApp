@@ -7,6 +7,7 @@ import Loader from "../../../utils/Loader";
 import FolderInfo from "./FolderInfo/FolderInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Searchfield from "../../../utils/Searchfield";
+import { proxy } from "../../../vars";
 
 class FileserverSite extends Component {
   state = {
@@ -65,7 +66,7 @@ class FileserverSite extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("http://arps-lnx:8000/fileserver/").then(res => {
+    axios.get(proxy + "/fileserver/").then(res => {
       this.distinctFileserver(res.data.shares);
 
       let sum = 0;
@@ -74,7 +75,7 @@ class FileserverSite extends Component {
       });
       this.setState({ sumSize: sum, folderCount: res.data.foldercount });
 
-      axios.get("http://arps-lnx:8000/ad/userandgroupssid").then(res2 => {
+      axios.get(proxy + "/ad/userandgroupssid").then(res2 => {
         const result = [];
 
         res2.data.forEach(item => {
@@ -102,7 +103,7 @@ class FileserverSite extends Component {
         if (node.type !== "Server") {
           // Children from Shares and Folders
           axios
-            .get(`http://arps-lnx:8000/fileserver/children/${node._path_id}`)
+            .get(proxy + `/fileserver/children/${node._path_id}`)
             .then(res => {
               const children = res.data;
               children.forEach(child => {
@@ -117,20 +118,18 @@ class FileserverSite extends Component {
             });
         } else {
           // Children from Server
-          axios
-            .get(`http://arps-lnx:8000/fileserver/shares/${node.name}`)
-            .then(res => {
-              res.data.forEach(share => {
-                const splittedPath = share._unc_path_name.split("\\");
-                share.name = splittedPath[splittedPath.length - 1];
-                share.type = "Share";
-                // share.loading = true;
-                if (share._has_children) share.children = [];
-                node.children.push(share);
-              });
-
-              this.setState({ loading: false });
+          axios.get(proxy + `/fileserver/shares/${node.name}`).then(res => {
+            res.data.forEach(share => {
+              const splittedPath = share._unc_path_name.split("\\");
+              share.name = splittedPath[splittedPath.length - 1];
+              share.type = "Share";
+              // share.loading = true;
+              if (share._has_children) share.children = [];
+              node.children.push(share);
             });
+
+            this.setState({ loading: false });
+          });
         }
       } else {
         this.setState({ loading: false });

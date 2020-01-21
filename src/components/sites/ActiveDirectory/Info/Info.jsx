@@ -4,25 +4,24 @@ import "./Info.scss";
 import Axios from "axios";
 import UserInfos from "./components/UserInfos";
 import GroupInfos from "./components/GroupInfos";
+import { proxy } from "../../../../vars";
 
 const Info = ({ item, type }) => {
   const [adElement, setAdElement] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
 
   useEffect(() => {
-    Axios.get("http://arps-lnx:8000/ldap/sid/" + item.SID).then(res => {
+    Axios.get(proxy + "/ldap/sid/" + item.SID).then(res => {
       setAdElement(res.data);
       // console.log(res.data);
     });
 
     if (type === "u")
-      Axios.get("http://arps-lnx:8000/ldap/thumbnail/" + item.SID).then(
-        res => {
-          if (res.data !== "") setThumbnail(res.data[0].data);
-          else setThumbnail(null);
-          // console.log(res.data[0].data);
-        }
-      );
+      Axios.get(proxy + "/ldap/thumbnail/" + item.SID).then(res => {
+        if (res.data !== "") setThumbnail(res.data[0].data);
+        else setThumbnail(null);
+        // console.log(res.data[0].data);
+      });
   }, [item.SID, type]);
 
   return (

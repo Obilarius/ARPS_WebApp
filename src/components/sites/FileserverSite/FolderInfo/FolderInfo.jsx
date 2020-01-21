@@ -7,6 +7,7 @@ import NodeIcon from "../Treeview/NodeIcon";
 import HumanReadableSize from "../../../../utils/HumanReadableSize";
 import FileSystemRightNTFS from "../../../../utils/FileSystemRight_NTFS";
 import FileSystemRightShare from "../../../../utils/FileSystemRight_Share";
+import { proxy } from "../../../../vars";
 
 const FolderInfo = ({ folder }) => {
   // const [size, setSize] = useState(0);
@@ -16,29 +17,25 @@ const FolderInfo = ({ folder }) => {
 
   useEffect(() => {
     if (folder._owner_sid)
-      axios
-        .get("http://arps-lnx:8000/fsdetails/owner/" + folder._owner_sid)
-        .then(res => {
-          if (res.data[0]) {
-            const tempOwner = res.data[0];
-            tempOwner.name = `${tempOwner.name} (${tempOwner.secName})`;
-            setOwner(tempOwner);
-          }
-        });
+      axios.get(proxy + "/fsdetails/owner/" + folder._owner_sid).then(res => {
+        if (res.data[0]) {
+          const tempOwner = res.data[0];
+          tempOwner.name = `${tempOwner.name} (${tempOwner.secName})`;
+          setOwner(tempOwner);
+        }
+      });
   }, [folder._owner_sid]);
 
   useEffect(() => {
     if (folder._path_id) {
-      axios
-        .get(`http://arps-lnx:8000/fsdetails/fsr/${folder._path_id}`)
-        .then(res => {
-          setAcl(res.data);
-        });
+      axios.get(proxy + `/fsdetails/fsr/${folder._path_id}`).then(res => {
+        setAcl(res.data);
+      });
     }
 
     if (folder.type === "Share") {
       axios
-        .get(`http://arps-lnx:8000/fileserver/shares/ace/${folder._path_id}`)
+        .get(proxy + `/fileserver/shares/ace/${folder._path_id}`)
         .then(res => {
           setShareAcl(res.data);
         });
