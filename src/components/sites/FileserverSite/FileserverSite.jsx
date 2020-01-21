@@ -65,7 +65,7 @@ class FileserverSite extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("http://localhost:8000/fileserver/").then(res => {
+    axios.get("http://arps-lnx:8000/fileserver/").then(res => {
       this.distinctFileserver(res.data.shares);
 
       let sum = 0;
@@ -74,7 +74,7 @@ class FileserverSite extends Component {
       });
       this.setState({ sumSize: sum, folderCount: res.data.foldercount });
 
-      axios.get("http://localhost:8000/ad/userandgroupssid").then(res2 => {
+      axios.get("http://arps-lnx:8000/ad/userandgroupssid").then(res2 => {
         const result = [];
 
         res2.data.forEach(item => {
@@ -102,7 +102,7 @@ class FileserverSite extends Component {
         if (node.type !== "Server") {
           // Children from Shares and Folders
           axios
-            .get(`http://localhost:8000/fileserver/children/${node._path_id}`)
+            .get(`http://arps-lnx:8000/fileserver/children/${node._path_id}`)
             .then(res => {
               const children = res.data;
               children.forEach(child => {
@@ -118,7 +118,7 @@ class FileserverSite extends Component {
         } else {
           // Children from Server
           axios
-            .get(`http://localhost:8000/fileserver/shares/${node.name}`)
+            .get(`http://arps-lnx:8000/fileserver/shares/${node.name}`)
             .then(res => {
               res.data.forEach(share => {
                 const splittedPath = share._unc_path_name.split("\\");

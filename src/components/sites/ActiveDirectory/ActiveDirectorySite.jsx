@@ -20,7 +20,7 @@ const ActiveDirectorySite = () => {
   const [activeItem, setActiveItem] = useState(null);
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/ad/").then(res => {
+    Axios.get("http://arps-lnx:8000/ad/").then(res => {
       setUsers(res.data.users);
       setFilteredUsers(res.data.users);
       setGroups(res.data.groups);

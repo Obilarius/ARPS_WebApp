@@ -19,7 +19,7 @@ class FileserverSite extends Component {
   };
 
   componentDidMount = () => {
-    axios.get("http://localhost:8000/wss/getPaths").then(res => {
+    axios.get("http://arps-lnx:8000/wss/getPaths").then(res => {
       res.data.forEach(element => {
         element.children = [];
       });

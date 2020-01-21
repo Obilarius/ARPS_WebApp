@@ -15,7 +15,7 @@ const App = () => {
   const [user, setUser] = useState({ cn: "DummyUser" });
 
   // useEffect(() => {
-  //   axios.get(`http://localhost:8000/ldap/user`).then(res => {
+  //   axios.get(`http://arps-lnx:8000/ldap/user`).then(res => {
   //     setUser(res.data);
   //   });
   // }, []);

@@ -17,7 +17,7 @@ const FolderInfo = ({ folder }) => {
   useEffect(() => {
     if (folder._owner_sid)
       axios
-        .get("http://localhost:8000/fsdetails/owner/" + folder._owner_sid)
+        .get("http://arps-lnx:8000/fsdetails/owner/" + folder._owner_sid)
         .then(res => {
           if (res.data[0]) {
             const tempOwner = res.data[0];
@@ -30,7 +30,7 @@ const FolderInfo = ({ folder }) => {
   useEffect(() => {
     if (folder._path_id) {
       axios
-        .get(`http://localhost:8000/fsdetails/fsr/${folder._path_id}`)
+        .get(`http://arps-lnx:8000/fsdetails/fsr/${folder._path_id}`)
         .then(res => {
           setAcl(res.data);
         });
@@ -38,7 +38,7 @@ const FolderInfo = ({ folder }) => {
 
     if (folder.type === "Share") {
       axios
-        .get(`http://localhost:8000/fileserver/shares/ace/${folder._path_id}`)
+        .get(`http://arps-lnx:8000/fileserver/shares/ace/${folder._path_id}`)
         .then(res => {
           setShareAcl(res.data);
         });

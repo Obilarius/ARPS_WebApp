@@ -13,7 +13,7 @@ const WSSInfo = ({ data }) => {
   useEffect(() => {
     if (data.Id) {
       axios
-        .get(`http://localhost:8000/wss/getRights/${data.Id}/${data.ContentDB}`)
+        .get(`http://arps-lnx:8000/wss/getRights/${data.Id}/${data.ContentDB}`)
         .then(res => {
           setAcl(res.data);
         });

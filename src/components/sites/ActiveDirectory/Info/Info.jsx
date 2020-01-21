@@ -10,13 +10,13 @@ const Info = ({ item, type }) => {
   const [thumbnail, setThumbnail] = useState(null);
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/ldap/sid/" + item.SID).then(res => {
+    Axios.get("http://arps-lnx:8000/ldap/sid/" + item.SID).then(res => {
       setAdElement(res.data);
       // console.log(res.data);
     });
 
     if (type === "u")
-      Axios.get("http://localhost:8000/ldap/thumbnail/" + item.SID).then(
+      Axios.get("http://arps-lnx:8000/ldap/thumbnail/" + item.SID).then(
         res => {
           if (res.data !== "") setThumbnail(res.data[0].data);
           else setThumbnail(null);
