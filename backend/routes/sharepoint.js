@@ -31,16 +31,15 @@ router.get("/getPaths", async (req, res, next) => {
   }
 });
 
-
 router.get("/getRights/:webid/:db", async (req, res, next) => {
-  if (!req.params.webid || !req.params.db) res.status(500)
-  const webid = req.params.webid
-  const db = req.params.db
+  if (!req.params.webid || !req.params.db) res.status(500);
+  const webid = req.params.webid;
+  const db = req.params.db;
 
   try {
     const conn = await sql.connect(sqlconfig);
 
-    let query = `SELECT DISTINCT w.FullUrl, r.Title, r.Description, g.Title as GroupTitle, u.tp_Title as UserTitle, u.tp_DomainGroup, u.tp_SiteAdmin FROM
+    let query = `SELECT DISTINCT w.FullUrl, r.Title, r.Description, g.Title as GroupTitle, u.tp_Title as UserTitle, u.tp_DomainGroup as isDomainGroup, u.tp_SiteAdmin FROM
     (SELECT w.FullUrl, w.SiteId, w.ScopeId FROM ${db}.dbo.Webs w
     WHERE Id = '${webid}') as w
     JOIN ${db}.dbo.RoleAssignment ra ON ra.SiteId = w.SiteId AND ra.ScopeId = w.ScopeId
@@ -48,17 +47,15 @@ router.get("/getRights/:webid/:db", async (req, res, next) => {
     LEFT JOIN ${db}.dbo.Groups g ON g.SiteId = ra.SiteId AND g.ID = ra.PrincipalId
     LEFT JOIN ${db}.dbo.GroupMembership gm ON gm.SiteId = ra.SiteId AND g.ID = gm.GroupId
     LEFT JOIN ${db}.dbo.UserInfo u ON u.tp_SiteID = ra.SiteId AND (u.tp_ID = ra.PrincipalId OR gm.MemberId = u.tp_ID)
-    WHERE r.Title != 'Beschränkter Zugriff'
-    ORDER BY  GroupTitle, UserTitle`;
+    WHERE r.Title != 'Beschränkter Zugriff' AND r.Title != 'Limited Access'
+    ORDER BY  GroupTitle, Title, UserTitle`;
 
     let result = await conn.query(query);
 
     const groupBy = key => array =>
       array.reduce((objectsByKeyValue, obj) => {
         const value = obj[key];
-        objectsByKeyValue[value] = (
-          objectsByKeyValue[value] || []
-        ).concat(obj);
+        objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
         return objectsByKeyValue;
       }, {});
 
@@ -73,9 +70,10 @@ router.get("/getRights/:webid/:db", async (req, res, next) => {
   }
 });
 
-
-var getAllContentDbs = async (conn) => {
-  let allContentDBs = await conn.query(`SELECT name FROM master.dbo.sysdatabases WHERE name LIKE 'SharePoint_Content%'`);
+var getAllContentDbs = async conn => {
+  let allContentDBs = await conn.query(
+    `SELECT name FROM master.dbo.sysdatabases WHERE name LIKE 'SharePoint_Content%'`
+  );
 
   const rs = allContentDBs.recordset;
   const retArray = [];
@@ -85,11 +83,11 @@ var getAllContentDbs = async (conn) => {
   });
 
   return retArray;
-}
+};
 
 //Function to connect to database and execute query
 var executeQuery = (res, query) => {
-  sql.connect(sqlconfig, function (err) {
+  sql.connect(sqlconfig, function(err) {
     if (err) {
       console.log("Error while connecting database :- " + err);
       res.send(err);
@@ -97,7 +95,7 @@ var executeQuery = (res, query) => {
       // create Request object
       var request = new sql.Request();
       // query to the database
-      request.query(query, function (err, result) {
+      request.query(query, function(err, result) {
         if (err) {
           console.log("Error while querying database :- " + err);
           res.send(err);
@@ -107,6 +105,6 @@ var executeQuery = (res, query) => {
       });
     }
   });
-}
+};
 
 module.exports = router;

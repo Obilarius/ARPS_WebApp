@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ldap = require("ldapjs");
 var ActiveDirectory = require("activedirectory");
+const os = require('os');
 
 const ldapConnect = () => {
   var client = ldap.createClient({
@@ -11,7 +12,7 @@ const ldapConnect = () => {
   client.bind(
     "CN=Administrator,CN=Builtin,DC=arges,DC=local",
     "dkvm4#2",
-    function(err) {}
+    function (err) {}
   );
 
   return client;
@@ -29,21 +30,21 @@ router.get("/sid/:sid", async (req, res, next) => {
       attributes: []
     };
 
-    client.search("dc=arges,dc=local", opts, function(err, cres) {
+    client.search("dc=arges,dc=local", opts, function (err, cres) {
       if (err) return;
 
-      cres.on("searchEntry", function(entry) {
+      cres.on("searchEntry", function (entry) {
         // console.log('entry: ' + JSON.stringify(entry.object));
         client.unbind();
         res.send(entry.object);
       });
-      cres.on("searchReference", function(referral) {
+      cres.on("searchReference", function (referral) {
         // console.log('referral: ' + referral.uris.join());
       });
-      cres.on("error", function(err) {
+      cres.on("error", function (err) {
         // console.error('error: ' + err.message);
       });
-      cres.on("end", function(result) {
+      cres.on("end", function (result) {
         // console.log('status: ' + result.status);
       });
     });
@@ -66,10 +67,10 @@ router.get("/thumbnail/:sid", async (req, res, next) => {
       attributes: []
     };
 
-    client.search("dc=arges,dc=local", opts, function(err, cres) {
+    client.search("dc=arges,dc=local", opts, function (err, cres) {
       if (err) return;
 
-      cres.on("searchEntry", function(entry) {
+      cres.on("searchEntry", function (entry) {
         // console.log('entry: ' + JSON.stringify(entry.object));
         client.unbind();
 
@@ -79,13 +80,50 @@ router.get("/thumbnail/:sid", async (req, res, next) => {
         if (tn) res.send(tn._vals);
         else res.send(null);
       });
-      cres.on("searchReference", function(referral) {
+      cres.on("searchReference", function (referral) {
         // console.log('referral: ' + referral.uris.join());
       });
-      cres.on("error", function(err) {
+      cres.on("error", function (err) {
         // console.error('error: ' + err.message);
       });
-      cres.on("end", function(result) {
+      cres.on("end", function (result) {
+        // console.log('status: ' + result.status);
+      });
+    });
+  } catch (error) {
+    console.error("ERROR: " + error);
+  }
+
+  client.unbind();
+});
+
+router.get("/user", async (req, res, next) => {
+  const osUser = os.userInfo();
+
+  try {
+    var client = ldapConnect();
+
+    var opts = {
+      filter: "(sAMAccountName=" + osUser.username + ")",
+      scope: "sub",
+      attributes: []
+    };
+
+    client.search("dc=arges,dc=local", opts, function (err, cres) {
+      if (err) return;
+
+      cres.on("searchEntry", function (entry) {
+        // console.log('entry: ' + JSON.stringify(entry.object));
+        client.unbind();
+        res.send(entry.object);
+      });
+      cres.on("searchReference", function (referral) {
+        // console.log('referral: ' + referral.uris.join());
+      });
+      cres.on("error", function (err) {
+        // console.error('error: ' + err.message);
+      });
+      cres.on("end", function (result) {
         // console.log('status: ' + result.status);
       });
     });
