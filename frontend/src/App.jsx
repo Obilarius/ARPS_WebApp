@@ -10,17 +10,14 @@ import Navbar from "./components/Navbar/Navbar";
 import FileserverSite from "./components/sites/FileserverSite/FileserverSite";
 import ActiveDirectorySite from "./components/sites/ActiveDirectory/ActiveDirectorySite";
 import SharepointSite from "./components/sites/Sharepoint/SharepointSite";
+import Login from "./components/sites/Login/Login";
 
 const App = () => {
-  const [user, setUser] = useState({ cn: "DummyUser" });
+  const [user, setUser] = useState();
 
-  // useEffect(() => {
-  //   axios.get(`/ldap/user`).then(res => {
-  //     setUser(res.data);
-  //   });
-  // }, []);
-
-  if (user) {
+  if (!user) {
+    return <Login setUser={setUser} />;
+  } else {
     return (
       <Router>
         <Navbar userName={user.cn} />
@@ -46,7 +43,7 @@ const App = () => {
         </section>
       </Router>
     );
-  } else return <></>;
+  }
 };
 
 export default App;

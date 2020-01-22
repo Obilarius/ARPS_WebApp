@@ -5,7 +5,7 @@ e93734 - Loader
 16fa12 - ActiveDirectorySite
 997489 - SiteHeader
 72bd0a - SharepointSite
-4cbe05
+4cbe05 - LoginSite
 3534db
 2c228e
 4c78ec

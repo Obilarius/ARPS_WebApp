@@ -1,0 +1,95 @@
+@import "../../../css/main-var.scss";
+
+#_4cbe05 {
+  width: 100vw;
+  height: 100vh;
+
+  background: url("../../../assets/img/bg_trees.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: $blue;
+    opacity: .9;
+    position: absolute;
+  }
+
+  .form-block {
+    position: relative;
+    width: 350px;
+    padding: 50px;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.07);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    .header {
+      display: grid;
+      justify-items: center;
+      margin-bottom: 30px;
+
+      svg {
+        width: 60%;
+        display: block;
+      }
+
+      .text {
+        font-size: 4rem;
+        color: $blue;
+      }
+    }
+
+    .form-group__input {
+      display: block;
+      color: #fff;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 16px;
+      padding: 14px 10px;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, .5);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 3px;
+
+      &::placeholder {
+        color: #fff;
+      }
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 12px;
+      margin-bottom: 0;
+      font-size: 16px;
+      font-weight: 400;
+      text-transform: uppercase;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-image: none;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      transition: all .2s ease-in-out;
+      box-shadow: 0px 0px 13px 8px rgba(0, 0, 0, 0.1);
+      background: $yellow;
+      color: $blue;
+      border: 1px solid $yellow;
+      font-weight: bold;
+
+      &:hover {
+        // box-shadow: 0px 0px 13px 13px rgba(0, 0, 0, 0.1);
+        // background: lighten($yellow, 10%);
+        color: $yellow;
+        background: transparent;
+        border: 1px solid $yellow;
+      }
+    }
+  }
+}

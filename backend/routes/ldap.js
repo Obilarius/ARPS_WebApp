@@ -18,6 +18,44 @@ const ldapConnect = () => {
   return client;
 };
 
+router.post("/login", (req, res) => {
+  // res.send(req.body);
+  try {
+    var client = ldap.createClient({
+      url: req.body.serverUrl
+    });
+  } catch (error) {
+    res.status(500).send("LDAP Error: " + error);
+  }
+
+  client.bind(
+    req.body.username + "@" + req.body.domain,
+    req.body.password,
+    function (err) {
+      if (err) {
+        res.status(401).send("Bind failed " + err);
+        return;
+      }
+
+      var opts = {
+        filter: "(sAMAccountName=" + req.body.username + ")",
+        scope: "sub",
+        attributes: []
+      };
+
+      client.search("dc=arges,dc=local", opts, (err, cres) => {
+        cres.on("searchEntry", function (entry) {
+          // console.log('entry: ' + JSON.stringify(entry.object));
+          client.unbind();
+          res.send(entry.object);
+        });
+      });
+
+      // res.send("Log on successful");
+    }
+  ); // client.bind
+});
+
 router.get("/sid/:sid", async (req, res, next) => {
   if (!req.params.sid) res.status(500);
 
