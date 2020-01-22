@@ -47,7 +47,16 @@ router.post("/login", (req, res) => {
         cres.on("searchEntry", function (entry) {
           // console.log('entry: ' + JSON.stringify(entry.object));
           client.unbind();
-          res.send(entry.object);
+
+          const attr = entry.attributes;
+          const tn = attr.find(element => element.type === "thumbnailPhoto");
+          const sid = attr.find(element => element.type === "objectSid");
+
+          res.send({
+            ...entry.object,
+            thumbnailPhoto: tn._vals[0],
+            objectSid: sid._vals[0]
+          });
         });
       });
 

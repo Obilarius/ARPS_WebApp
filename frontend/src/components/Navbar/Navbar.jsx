@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import ArgesLogo from "../../assets/ArgesLogo";
 import "./Navbar.scss";
 
-const Navbar = ({ userName }) => {
+const Navbar = ({ user }) => {
   return (
     <nav id="_641630">
       <div className="container">
@@ -26,8 +26,11 @@ const Navbar = ({ userName }) => {
           </NavLink>
         </div>
         <div className="right">
-          <NavLink className="user" to="/user/admin">
-            {userName}
+          <NavLink className="user" to="/user">
+            {user.cn}
+            <div className="user-icon">
+              <img src={user.thumbnailPhoto} alt="Profile" />
+            </div>
           </NavLink>
           <div className="version">v0.1(beta)</div>
         </div>

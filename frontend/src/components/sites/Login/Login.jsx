@@ -6,6 +6,16 @@ import Axios from "axios";
 import { proxy } from "../../../vars";
 
 const Login = props => {
+  const arrayBufferToBase64 = buffer => {
+    var binary = "";
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+
   const onSubmit = (e, username, password) => {
     e.preventDefault();
 
@@ -16,6 +26,10 @@ const Login = props => {
       password
     })
       .then(function(response) {
+        response.data.thumbnailPhoto =
+          "data:image/png;base64," +
+          arrayBufferToBase64(response.data.thumbnailPhoto.data);
+
         props.setUser(response.data);
       })
       .catch(function(error) {

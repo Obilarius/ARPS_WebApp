@@ -151,6 +151,7 @@ const UserInfos = ({ user, sid, enabled, thumbnail }) => {
 
   return (
     <>
+      {console.log(thumbnail)}
       {thumbnail && (
         <img
           src={`data:image/png;base64,${arrayBufferToBase64(thumbnail)}`}

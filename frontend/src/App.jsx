@@ -20,7 +20,7 @@ const App = () => {
   } else {
     return (
       <Router>
-        <Navbar userName={user.cn} />
+        <Navbar user={user} />
         <section className="content">
           <Switch>
             <Route exact path="/">

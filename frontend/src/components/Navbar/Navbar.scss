@@ -60,7 +60,21 @@
       line-height: 60px;
 
       .user {
+        display: grid;
+        grid-template-columns: auto auto;
+        column-gap: 10px;
+        align-items: center;
         margin-right: 20px;
+        padding: 0 10px;
+
+        .user-icon {
+          height: 50px;
+
+          img {
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
       }
 
       .version {
