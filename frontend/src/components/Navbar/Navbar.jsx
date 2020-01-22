@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import ArgesLogo from "../../assets/ArgesLogo";
 import "./Navbar.scss";
+import { version } from "../../vars";
 
 const Navbar = ({ user }) => {
   return (
@@ -32,7 +33,7 @@ const Navbar = ({ user }) => {
               <img src={user.thumbnailPhoto} alt="Profile" />
             </div>
           </NavLink>
-          <div className="version">v0.1(beta)</div>
+          <div className="version">{version}</div>
         </div>
       </div>
     </nav>

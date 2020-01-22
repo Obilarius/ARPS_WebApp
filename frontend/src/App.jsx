@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect
 } from "react-router-dom";
-import axios from "axios";
 import Navbar from "./components/Navbar/Navbar";
 import FileserverSite from "./components/sites/FileserverSite/FileserverSite";
 import ActiveDirectorySite from "./components/sites/ActiveDirectory/ActiveDirectorySite";
