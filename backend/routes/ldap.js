@@ -18,6 +18,10 @@ const ldapConnect = () => {
   return client;
 };
 
+const checkIsAdmin = user => {
+  return user.memberOf.find(grp => grp.includes("localadmins")) != null
+}
+
 router.post("/login", (req, res) => {
   // res.send(req.body);
   try {
@@ -33,7 +37,9 @@ router.post("/login", (req, res) => {
     req.body.password,
     function (err) {
       if (err) {
-        res.status(401).send("Bind failed " + err);
+        res.status(401).send({
+          message: "Name oder Passwort falsch"
+        });
         return;
       }
 
@@ -44,19 +50,26 @@ router.post("/login", (req, res) => {
       };
 
       client.search("dc=arges,dc=local", opts, (err, cres) => {
+        // Wenn ergebnis gefunden wurde
         cres.on("searchEntry", function (entry) {
-          // console.log('entry: ' + JSON.stringify(entry.object));
+          console.log("Gefunden");
           client.unbind();
 
-          const attr = entry.attributes;
-          const tn = attr.find(element => element.type === "thumbnailPhoto");
-          const sid = attr.find(element => element.type === "objectSid");
+          if (checkIsAdmin(entry.object)) {
+            const attr = entry.attributes;
+            const tn = attr.find(element => element.type === "thumbnailPhoto");
+            const sid = attr.find(element => element.type === "objectSid");
 
-          res.send({
-            ...entry.object,
-            thumbnailPhoto: tn._vals[0],
-            objectSid: sid._vals[0]
-          });
+            res.send({
+              ...entry.object,
+              thumbnailPhoto: tn._vals[0],
+              objectSid: sid._vals[0]
+            });
+          } else {
+            res.status(401).send({
+              message: "Nicht Berechtigt"
+            });
+          }
         });
       });
 
@@ -78,7 +91,9 @@ router.get("/sid/:sid", async (req, res, next) => {
     };
 
     client.search("dc=arges,dc=local", opts, function (err, cres) {
-      if (err) return;
+      if (err) {
+        return;
+      }
 
       cres.on("searchEntry", function (entry) {
         // console.log('entry: ' + JSON.stringify(entry.object));

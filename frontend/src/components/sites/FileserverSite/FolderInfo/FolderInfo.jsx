@@ -9,7 +9,7 @@ import FileSystemRightNTFS from "../../../../utils/FileSystemRight_NTFS";
 import FileSystemRightShare from "../../../../utils/FileSystemRight_Share";
 import { proxy } from "../../../../vars";
 
-const FolderInfo = ({ folder }) => {
+const FolderInfo = ({ folder, showGroupInfo }) => {
   // const [size, setSize] = useState(0);
   const [owner, setOwner] = useState({ name: "Keinen Besitzer gefunden" });
   const [acl, setAcl] = useState([]);
@@ -44,7 +44,7 @@ const FolderInfo = ({ folder }) => {
 
   return (
     <div id="_13990f">
-      <div className="container">
+      <div className="container folder-info">
         <header>
           <NodeIcon type={folder.type} width="24px" />
           <h2>{folder.name}</h2>
@@ -71,11 +71,14 @@ const FolderInfo = ({ folder }) => {
           />
         </div>
         <div className="fsr">
-          <FileSystemRightNTFS acl={acl} />
+          <FileSystemRightNTFS acl={acl} showGroupInfo={showGroupInfo} />
         </div>
         {folder.type === "Share" && (
           <div className="fsr share">
-            <FileSystemRightShare acl={shareAcl} />
+            <FileSystemRightShare
+              acl={shareAcl}
+              showGroupInfo={showGroupInfo}
+            />
           </div>
         )}
       </div>

@@ -27,7 +27,7 @@
     }
 
     .overview {
-      margin-top: 20px;
+      // margin-top: 20px;
       display: grid;
       grid-template-columns: auto 1fr;
       word-break: break-all;
@@ -110,7 +110,13 @@
               color: $darkGrey;
             }
           }
+
+          &.group {
+            cursor: pointer;
+          }
         }
+
+
 
         &.checkmark {
           padding: 2px;

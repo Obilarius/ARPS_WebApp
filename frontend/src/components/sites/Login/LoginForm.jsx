@@ -22,6 +22,15 @@ const LoginForm = props => {
         <ArgesLogo />
         <span className="text">ARPS</span>
       </div>
+      {props.errors.length > 0 && (
+        <div className="errors">
+          {props.errors.map((err, i) => (
+            <div key={i} className="error">
+              {err}
+            </div>
+          ))}
+        </div>
+      )}
       <div className="form-block__input-wrapper">
         <div className="form-group form-group--login">
           <input

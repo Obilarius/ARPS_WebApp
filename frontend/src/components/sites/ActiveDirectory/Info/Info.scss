@@ -13,6 +13,7 @@
 
   .container {
     width: 95%;
+    height: 100%;
 
     header {
       display: flex;
@@ -24,13 +25,23 @@
       }
     }
 
+    &.folder-info {
+      height: auto;
+
+      .overview {
+        height: auto;
+      }
+    }
+
     .overview {
-      margin-top: 20px;
+      // margin-top: 20px;
       display: grid;
       grid-template-columns: auto 1fr;
+      grid-template-rows: repeat(6, auto) 1fr;
       word-break: break-all;
-      // column-gap: 15px;
-      // row-gap: 5px;
+      height: 92%;
+
+
 
       img {
         position: absolute;
@@ -38,10 +49,6 @@
         top: 20px;
         width: 100px;
         height: 100px;
-
-        // box-shadow:
-        //   10px 10px 15px 0 rgba(0, 0, 0, 0.1),
-        //   2px 2px 3px 0 rgba(0, 0, 0, 0.3);
       }
 
       >div {
@@ -55,9 +62,10 @@
         }
 
         &.scroll {
-          max-height: 300px;
+          position: relative;
           overflow-y: scroll;
           padding: 10px;
+          // grid-row: 1fr;
         }
       }
     }
@@ -65,18 +73,15 @@
     .fsr {
       margin-top: 20px;
       display: grid;
-      grid-template-columns: repeat(9, auto);
       grid-template-columns: auto repeat(7, 25px) auto;
       grid-template-rows: 140px;
       align-items: center;
 
       background-color: $borderColor;
-      // border: 1px solid #000;
       grid-gap: 1px;
 
       div {
         background: $backgroundColor;
-        // border: 1px solid green;
         width: 100%;
         height: 100%;
       }

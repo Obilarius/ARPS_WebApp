@@ -8,6 +8,7 @@ import FolderInfo from "./FolderInfo/FolderInfo";
 import SiteWrapperWithHeader from "../../public/SiteWrapperWithHeader/SiteWrapperWithHeader";
 import Searchfield from "../../../utils/Searchfield";
 import { proxy } from "../../../vars";
+import GroupInfos from "../ActiveDirectory/Info/components/GroupInfos";
 
 class FileserverSite extends Component {
   state = {
@@ -17,7 +18,19 @@ class FileserverSite extends Component {
     folderCount: 0,
     sumSize: 0,
     loading: false,
-    infoIsOpen: false
+    infoIsOpen: false,
+    activeGroup: null
+  };
+
+  showGroupInfoHandler = grp => {
+    if (
+      this.state.activeGroup !== null &&
+      grp.sid === this.state.activeGroup.sid
+    ) {
+      this.setState({ activeGroup: null });
+    } else {
+      this.setState({ activeGroup: grp });
+    }
   };
 
   distinctFileserver = shares => {
@@ -166,7 +179,8 @@ class FileserverSite extends Component {
       sumSize,
       loading,
       activeNode,
-      infoIsOpen
+      infoIsOpen,
+      activeGroup
     } = this.state;
 
     return (
@@ -195,19 +209,25 @@ class FileserverSite extends Component {
               );
             })}
           </div>
-          {/* <div className="treeviews_own">
-            {Fileserver.map(server => {
-              return (
-                <TreeviewOwn
-                  key={server.name}
-                  server={server}
-                  onToggle={this.treeviewOnToggleHandler}
-                />
-              );
-            })}
-          </div> */}
         </SiteWrapperWithHeader>
-        {infoIsOpen && <FolderInfo folder={activeNode} />}
+        {activeGroup && (
+          <div id="_13990f" className="groupinfo-in-fileserver">
+            <div className="container">
+              <header>
+                <h2>{activeGroup.grp.DisplayName || activeGroup.grp.Name}</h2>
+              </header>
+              <div className="overview">
+                <GroupInfos group={activeGroup.grp} sid={activeGroup.sid} />
+              </div>
+            </div>
+          </div>
+        )}
+        {infoIsOpen && (
+          <FolderInfo
+            folder={activeNode}
+            showGroupInfo={this.showGroupInfoHandler}
+          />
+        )}
       </div>
     );
   }

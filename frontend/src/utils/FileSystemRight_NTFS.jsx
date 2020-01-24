@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { ReactComponent as UserSolid } from "../assets/FontAwesome/user-solid.svg";
 import { ReactComponent as GroupSolid } from "../assets/FontAwesome/users-solid.svg";
@@ -6,8 +6,10 @@ import { ReactComponent as CheckSolid } from "../assets/FontAwesome/check-solid.
 import { ReactComponent as FolderIcon } from "../assets/FontAwesome/folder-solid.svg";
 import { ReactComponent as SubfolderIcon } from "../assets/FontAwesome/folder-tree-duotone.svg";
 import { ReactComponent as FilesIcon } from "../assets/FontAwesome/file-alt-duotone.svg";
+import Axios from "axios";
+import { proxy } from "../vars";
 
-const FileSystemRight_NTFS = ({ acl }) => {
+const FileSystemRight_NTFS = ({ acl, showGroupInfo }) => {
   const getFSR = (n, p, i) => {
     const b = index => {
       if ((n & (1 << index)) !== 0) {
@@ -125,6 +127,14 @@ const FileSystemRight_NTFS = ({ acl }) => {
     );
   };
 
+  const clickGroupHandler = grp => {
+    Axios.get(proxy + "/ldap/sid/" + grp._sid).then(res => {
+      if (res.status === 200) {
+        showGroupInfo({ grp: res.data, sid: grp._sid });
+      }
+    });
+  };
+
   return (
     <>
       {getHeader()}
@@ -140,13 +150,20 @@ const FileSystemRight_NTFS = ({ acl }) => {
           ? "checkmark inherit"
           : "checkmark";
 
+        const isGrp = item._is_group;
+
         return (
           <React.Fragment
             key={`${item._sid}-${item._rights}-${item._propagation_flags}-${item._inheritance_flags}`}
           >
-            <div className="name">
+            <div
+              className={`name ${isGrp ? "group" : ""}`}
+              onClick={() => {
+                if (isGrp) clickGroupHandler(item);
+              }}
+            >
               <span className="icon">
-                {item._is_group ? (
+                {isGrp ? (
                   <GroupSolid />
                 ) : (
                   <UserSolid style={{ marginLeft: "3px" }} />

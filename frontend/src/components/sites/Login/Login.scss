@@ -18,7 +18,7 @@
 
   .form-block {
     position: relative;
-    width: 350px;
+    width: 400px;
     padding: 50px;
     background: rgba(255, 255, 255, .2);
     border-radius: 10px;
@@ -41,6 +41,19 @@
       .text {
         font-size: 4rem;
         color: $blue;
+      }
+    }
+
+    .errors {
+      background: rgba(133, 77, 77, 0.5);
+      margin-bottom: 20px;
+      border-radius: 3px;
+      border-left: 10px solid #D9534F;
+      padding: 10px 5px;
+
+      .error {
+        text-align: center;
+        color: #D9534F
       }
     }
 
