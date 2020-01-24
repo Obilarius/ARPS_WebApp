@@ -8,13 +8,15 @@
 
   >.header {
     font-size: 25px;
-    color: $blue;
-    // margin: 20px 0;
+    color: $headerColor;
     padding-top: 1px;
     font-weight: 500;
 
     h2 {
       margin-top: 20px;
+      display: inline-block;
+      border-bottom: 3px solid $yellow;
+      padding-left: 50px;
     }
   }
 

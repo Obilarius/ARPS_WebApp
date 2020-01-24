@@ -13,16 +13,37 @@ body {
   font-family: "Roboto", "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: $lightGrey;
+  // background: $lightGrey;
+
   color: $black;
 }
+
+.background {
+  position: fixed;
+  z-index: -100;
+  width: 100vw;
+  height: 100vh;
+  background: url("../src/assets/img/bg_trees.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .overlay {
+    width: 100%;
+    height: 100%;
+    background-color: $blue;
+    // z-index: -100;
+    opacity: .9;
+    position: absolute;
+  }
+}
+
 
 * {
   box-sizing: border-box;
 }
 
 .content {
-  margin-top: 75px;
+  padding-top: 35px;
 }
 
 a {
