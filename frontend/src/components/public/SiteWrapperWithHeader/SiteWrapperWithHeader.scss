@@ -31,11 +31,11 @@
       display: grid;
       grid-template-columns: 50px auto 1fr;
       align-items: center;
-      border: 1px solid $borderColor;
-      background: $backgroundColor;
+      // border: 1px solid $borderColor;
+      background: $tilesBackground;
       padding: 15px;
       border-radius: 5px;
-      color: $darkGrey;
+      color: $tilesColor;
 
 
       .icon {

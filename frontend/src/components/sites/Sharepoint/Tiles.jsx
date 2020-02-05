@@ -1,5 +1,5 @@
 import React from "react";
-import Tile from "../Tile";
+import Tile from "../../../utils/Tile";
 import { ReactComponent as FolderTree } from "../../../assets/FontAwesome/folder-tree-duotone.svg";
 // import HumanReadableSize from "../../../utils/HumanReadableSize";
 

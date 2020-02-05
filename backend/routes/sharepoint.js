@@ -39,7 +39,7 @@ router.get("/getRights/:webid/:db", async (req, res, next) => {
   try {
     const conn = await sql.connect(sqlconfig);
 
-    let query = `SELECT DISTINCT w.FullUrl, r.Title, r.Description, g.Title as GroupTitle, u.tp_Title as UserTitle, u.tp_DomainGroup as isDomainGroup, u.tp_SiteAdmin FROM
+    let query = `SELECT DISTINCT w.FullUrl, r.Title, r.Description, g.Title as GroupTitle, u.tp_Title as UserTitle, u.tp_Login as Login, u.tp_DomainGroup as isDomainGroup, u.tp_SiteAdmin FROM
     (SELECT w.FullUrl, w.SiteId, w.ScopeId FROM ${db}.dbo.Webs w
     WHERE Id = '${webid}') as w
     JOIN ${db}.dbo.RoleAssignment ra ON ra.SiteId = w.SiteId AND ra.ScopeId = w.ScopeId
@@ -87,7 +87,7 @@ var getAllContentDbs = async conn => {
 
 //Function to connect to database and execute query
 var executeQuery = (res, query) => {
-  sql.connect(sqlconfig, function(err) {
+  sql.connect(sqlconfig, function (err) {
     if (err) {
       console.log("Error while connecting database :- " + err);
       res.send(err);
@@ -95,7 +95,7 @@ var executeQuery = (res, query) => {
       // create Request object
       var request = new sql.Request();
       // query to the database
-      request.query(query, function(err, result) {
+      request.query(query, function (err, result) {
         if (err) {
           console.log("Error while querying database :- " + err);
           res.send(err);

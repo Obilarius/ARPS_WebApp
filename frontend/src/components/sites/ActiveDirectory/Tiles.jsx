@@ -1,5 +1,5 @@
 import React from "react";
-import Tile from "../Tile";
+import Tile from "../../../utils/Tile";
 
 import { ReactComponent as UserIcon } from "../../../assets/FontAwesome/user-solid.svg";
 import { ReactComponent as GroupIcon } from "../../../assets/FontAwesome/users-solid.svg";

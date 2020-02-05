@@ -1,5 +1,5 @@
 import React from "react";
-import Tile from "../Tile";
+import Tile from "../../../utils/Tile";
 import { ReactComponent as FolderSolid } from "../../../assets/FontAwesome/folder-solid.svg";
 import { ReactComponent as ServerSolid } from "../../../assets/FontAwesome/server-solid.svg";
 import { ReactComponent as HDDSolid } from "../../../assets/FontAwesome/hdd-solid.svg";

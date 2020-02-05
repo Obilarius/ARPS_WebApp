@@ -69,6 +69,19 @@
             height: 15px;
           }
         }
+
+        &.ace-usertitle {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          justify-content: center;
+          align-items: center;
+
+          img,
+          svg {
+            height: 17px;
+            padding-right: 5px;
+          }
+        }
       }
 
     }

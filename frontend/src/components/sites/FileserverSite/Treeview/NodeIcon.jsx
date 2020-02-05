@@ -12,13 +12,13 @@ const NodeIcon = ({ type, width }) => {
 
   switch (type) {
     case "Server":
-      return <ServerSolid style={style} />;
+      return <ServerSolid style={{ ...style }} />;
     case "Share":
-      return <ShareSolid style={style} />;
+      return <ShareSolid style={{ ...style }} />;
     case "Folder":
-      return <FolderSolid style={style} />;
+      return <FolderSolid style={{ ...style, color: "#FFD505" }} />;
     default:
-      return <FolderSolid style={style} />;
+      return <FolderSolid style={{ ...style, color: "#FFD505" }} />;
   }
 };
 
