@@ -14,5 +14,16 @@
       //   color: $darkGrey;
       // }
     }
+
+    .section-header {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: $blue;
+      text-transform: uppercase;
+      padding-top: 10px;
+      margin-bottom: 5px;
+      border-bottom: 2px solid $yellow;
+      padding-left: 20px;
+    }
   }
 }

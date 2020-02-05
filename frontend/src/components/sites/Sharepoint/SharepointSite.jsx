@@ -76,6 +76,30 @@ class FileserverSite extends Component {
       infoIsOpen
     } = this.state;
 
+    let treeview = [];
+    let lastUrlBase = "";
+
+    treeviewData.forEach(element => {
+      let urlBase = element.FullUrl.split("/")[0];
+
+      if (lastUrlBase !== urlBase) {
+        treeview.push(
+          <div className="section-header" key={urlBase}>
+            {urlBase}
+          </div>
+        );
+        lastUrlBase = urlBase;
+      }
+
+      treeview.push(
+        <Treeview
+          key={element.Title + "-" + element.Id}
+          data={element}
+          onToggle={this.treeviewOnToggleHandler}
+        />
+      );
+    });
+
     return (
       <div id="_72bd0a" className="container">
         {loading && <Loader />}
@@ -87,17 +111,7 @@ class FileserverSite extends Component {
             dropdownItems={searchDropdown}
             onSearch={this.onSearchHandler}
           /> */}
-          <div className="treeviews">
-            {treeviewData.map(tree => {
-              return (
-                <Treeview
-                  key={tree.Title + "-" + tree.Id}
-                  data={tree}
-                  onToggle={this.treeviewOnToggleHandler}
-                />
-              );
-            })}
-          </div>
+          <div className="treeviews">{treeview}</div>
         </SiteWrapperWithHeader>
         {infoIsOpen && <WSSInfo data={activeNode} />}
       </div>
