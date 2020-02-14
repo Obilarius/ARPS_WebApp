@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import ArgesLogo from "../../../assets/ArgesLogo";
 
 const LoginForm = props => {
-  const [username, setUsername] = useState("walzenbach");
-  const [password, setPassword] = useState("Dosenfisch32!");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const onChangeUsername = e => {
     setUsername(e.target.value);
